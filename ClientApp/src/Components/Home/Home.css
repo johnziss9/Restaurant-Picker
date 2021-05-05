@@ -1,0 +1,21 @@
+.home-container {
+    background: url("../../Images/home.jpg");
+    width: 100%;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-btn {
+    width: 200px;
+    height: 50px;
+}
+
+.login-form-btn {
+    width: 90px;
+    margin: 0 5px 0 5px;
+}
