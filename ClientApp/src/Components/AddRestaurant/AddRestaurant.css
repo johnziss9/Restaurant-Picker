@@ -1,0 +1,22 @@
+.add-restaurant-container {
+    background: url("../../Images/add-restaurant.jpeg");
+    width: 100%;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.add-restaurant-submit {
+    margin-top: 25px;
+}
+
+.view-restaurants-alert-link {
+    color: #000;
+    text-decoration: underline;
+    margin: -0.5em 0 0 -1rem;
+}
+
+.view-restaurants-alert-link:hover {
+    color: #000;
+}

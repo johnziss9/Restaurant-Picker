@@ -1,18 +1,12 @@
-import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import './index.css';
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-
-const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
-const rootElement = document.getElementById('root');
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
-  <BrowserRouter basename={baseUrl}>
+  <React.StrictMode>
     <App />
-  </BrowserRouter>,
-  rootElement);
-
-registerServiceWorker();
-
+  </React.StrictMode>,
+  document.getElementById('root')
+);

@@ -1,0 +1,91 @@
+.view-restaurants-container {
+    background: url("../../Images/view-restaurants.jpeg");
+    width: 100%;
+    min-height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+/* Loading CSS */
+
+.view-restaurants-container-loading {
+    background: url("../../Images/view-restaurants.jpeg");
+    width: 100%;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+}
+
+.view-restaurants-loading-gif {
+    margin: 50px 0 30px 0; 
+}
+
+.view-restaurants-loading-text {
+    font-size: 25px;
+}
+
+/* Menu */
+
+.view-restaurant-buttons-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0 10px 0;
+}
+
+.view-restaurant-buttons-container > .view-filtered-restaurants {
+    font-size: 19px;
+    color: #000;
+}
+
+.view-restaurant-buttons-container > .view-filtered-restaurants:hover {
+    color: #000;
+}
+
+.view-restaurant-buttons-container > .active {
+    border-bottom: 2px solid #000;
+}
+
+.view-restaurant-buttons-container > .view-filtered-restaurants:focus {
+    outline: none;
+    box-shadow: none;
+    text-decoration: none;
+}
+
+/* Content CSS */
+
+.view-restaurants-content-container {
+    display: flex;
+    justify-content: center;
+}
+
+.view-restaurants-content {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.view-restaurant-container {
+    border: 2px solid black;
+    margin: 20px;
+    width: 280px;
+    height: 230px;
+    border-radius: 5%;
+    background: linear-gradient(90deg, rgb(255, 255, 255, 0.9) 0%, rgb(206, 190, 187, 0.9) 100%) !important;
+    text-align: center;
+}
+
+.view-restaurant-name {
+    padding: 15px 0 15px 0;
+    border-bottom: 2px solid black;
+}
+
+.view-restaurant-location {
+    margin-top: 25px;
+}

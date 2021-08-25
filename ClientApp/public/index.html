@@ -1,41 +1,48 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <base href="%PUBLIC_URL%/" />
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <meta charset="utf-8" />
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
+    <!--ADD ICON IN PUBLIC FOLDER AND CHANGE THIS-->
+    <!-- <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!--ADD ICON IN PUBLIC FOLDER AND CHANGE THIS-->
+    <!--Meta for Microsoft Apps-->
+    <!-- <meta name="msapplication-TileImage" content="" /> -->
+
+    <!--Meta tags for Site name, Title, Description URL and Type-->
+    <meta property="og:site_name" content="Restaurant Picker" />
+    <meta property="og:site_title" content="Restaurant Picker" />
+    <meta property="og:description" content="This app will help the user select a restaurant in random from the ones added." />
+    <!--CHANGE THIS-->
+    <!-- <meta property="og:url" content="" /> -->
+    <meta property="og:type" content="website" />
+
+    <!--Meta tags for images-->
+   
+    <!--CHANGE THESE-->
+    <!-- <meta property="og:image" content="https://thefilmers.co.uk/thefilmers.png" />
+    <meta name="twitter:image" content="https://thefilmers.co.uk/thefilmers.png" /> -->
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="300">
+    <meta property="og:image:height" content="300">
+
+    <!--Meta Tags End-->
+
+    <!--Add fonts here-->
+    
+
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <title>Restaurant_Picker</title>
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <title>Restaurant Picker</title>
   </head>
   <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>
