@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Restaurant_Picker.Models;
+using Restaurant_Picker.Services;
 
 namespace Restaurant_Picker
 {
@@ -24,6 +25,8 @@ namespace Restaurant_Picker
         {
             services.Configure<DatabaseSettings>(Configuration.GetSection(nameof(DatabaseSettings)));
             services.AddSingleton<IDatabaseSettings>(s => s.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+
+            services.AddSingleton<RestaurantService>();
 
             services.AddControllersWithViews();
 
