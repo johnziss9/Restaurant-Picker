@@ -5,7 +5,7 @@ using Restaurant_Picker.Services;
 
 namespace Restaurant_Picker.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class RestaurantController : ControllerBase
     {

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Restaurant_Picker.Auth;
 using Restaurant_Picker.Models;
 using Restaurant_Picker.Services;
 
@@ -27,6 +28,8 @@ namespace Restaurant_Picker
             services.AddSingleton<IDatabaseSettings>(s => s.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
             services.AddSingleton<RestaurantService>();
+
+            services.AddScoped<IAuthRepository, AuthRepository>();
 
             services.AddControllersWithViews();
 
