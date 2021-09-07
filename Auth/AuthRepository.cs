@@ -25,22 +25,39 @@ namespace Restaurant_Picker.Auth
             _users = database.GetCollection<User>(settings.UsersCollectionName);
         }
 
-        public string Login(string username, string password)
+        public ServiceResponse<string> Login(string username, string password)
         {
-            var user = _users.Find<User>(u => u.Username.ToLower() == username.ToLower()).FirstOrDefault();
+            ServiceResponse<string> response = new ServiceResponse<string>();
+
+            User user = _users.Find<User>(u => u.Username.ToLower() == username.ToLower()).FirstOrDefault();
 
             if (user == null)
-                return null;
+            {
+                response.Success = false;
+                response.Message = "User not found.";
+            }
             else if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-                return null;
+            {
+                response.Success = false;
+                response.Message = "Wrong passwrod.";
+            }
             else
-                return CreateToken(user);
+                response.Data = CreateToken(user);
+            
+            return response;
         }
 
-        public string Register(User user, string password)
+        public ServiceResponse<string> Register(User user, string password)
         {
+            ServiceResponse<string> response = new ServiceResponse<string>();
+
             if (UserExist(user.Username))
-                return "User already exists";
+            {
+                response.Success = false;
+                response.Message = "User already exists";
+
+                return response;
+            }
 
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -49,7 +66,7 @@ namespace Restaurant_Picker.Auth
 
             _users.InsertOne(user);
 
-            return user.Id;
+            return response;
         }
 
         public bool UserExist(string username)

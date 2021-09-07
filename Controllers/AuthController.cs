@@ -19,23 +19,23 @@ namespace Restaurant_Picker.Controllers
         [HttpPost("Register")]
         public IActionResult Register(UserDto userDto)
         {
-            var user = _authRepo.Register(new User { Username = userDto.Username }, userDto.Password);
+            ServiceResponse<string> response = _authRepo.Register(new User { Username = userDto.Username }, userDto.Password);
 
-            if (user == null)
-                return BadRequest();
+            if (!response.Success)
+                return BadRequest(response);
 
-            return Ok();
+            return Ok(response);
         }
 
         [HttpPost("Login")]
         public IActionResult Login(UserDto userDto)
         {
-            var user = _authRepo.Login(userDto.Username, userDto.Password);
+            ServiceResponse<string> response = _authRepo.Login(userDto.Username, userDto.Password);
 
-            if (user == null)
-                return BadRequest();
+            if (!response.Success)
+                return BadRequest(response);
 
-            return Ok();
-        }   
+            return Ok(response);
+        }
     }
 }
