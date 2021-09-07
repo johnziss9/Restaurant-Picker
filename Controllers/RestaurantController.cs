@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant_Picker.Models;
@@ -19,51 +20,51 @@ namespace Restaurant_Picker.Controllers
         }
 
         [HttpGet("GetAll")]
-        public ActionResult<List<Restaurant>> Get() => _restaurantService.Get();
-
-        [HttpGet]
-        public ActionResult<Restaurant> Get(string id)
+        public ActionResult Get()
         {
-            var restaurant = _restaurantService.Get(id);
+            return Ok(_restaurantService.Get());
+        }
 
-            if (restaurant == null)
-                return NotFound();
-
-            return restaurant;
+        [HttpGet("{id}")]
+        public ActionResult Get(string id)
+        {
+            return Ok(_restaurantService.Get(id));
         }
 
         [HttpPost]
-        public ActionResult<Restaurant> Create(Restaurant restaurant)
+        public ActionResult Create(Restaurant restaurant)
         {
-            _restaurantService.Create(restaurant);
+            var response = _restaurantService.Create(restaurant);
 
-            return CreatedAtRoute(new { id = restaurant.Id.ToString() }, restaurant);
+            CreatedAtRoute(new { id = restaurant.Id.ToString() }, response.Data.LastOrDefault());
+
+            return Ok(response);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public IActionResult Update(string id, Restaurant restaurant)
         {
             var restaurantId = _restaurantService.Get(id);
 
-            if (restaurantId == null)
-                return NotFound();
+            ServiceResponse<Restaurant> response = _restaurantService.Update(id, restaurant);
 
-            _restaurantService.Update(id, restaurant);
+            if (response.Data == null)
+                return NotFound(response);
 
-            return NoContent();
+            return Ok(response);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
             var restaurant = _restaurantService.Get(id);
 
-            if (restaurant == null)
-                return NotFound();
+            ServiceResponse<List<Restaurant>> response = _restaurantService.Remove(id);
 
-            _restaurantService.Remove(restaurant.Id);
+            if (response.Data == null)
+                return NotFound(response);
 
-            return NoContent();
+            return Ok(response);
         }
 
     }

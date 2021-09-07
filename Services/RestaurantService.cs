@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
@@ -20,20 +21,80 @@ namespace Restaurant_Picker.Services
             _restaurants = database.GetCollection<Restaurant>(settings.RestaurantsCollectionName);
         }
 
-        public List<Restaurant> Get() => _restaurants.Find(restaurant => true).ToList();
-
-        public Restaurant Get(string id) => _restaurants.Find<Restaurant>(r => r.Id == id).FirstOrDefault();
-
-        public Restaurant Create(Restaurant restaurant)
+        public ServiceResponse<List<Restaurant>> Get() 
         {
-            _restaurants.InsertOne(restaurant);
-            return restaurant;
+            ServiceResponse<List<Restaurant>> serviceResponse = new ServiceResponse<List<Restaurant>>();
+            List<Restaurant> restaurants = _restaurants.Find(restaurant => true).ToList();
+            serviceResponse.Data = restaurants;
+            return serviceResponse;
         }
 
-        public void Update(string id, Restaurant restaurant) => _restaurants.ReplaceOne(r => r.Id == id, restaurant);
+        public ServiceResponse<Restaurant> Get(string id) 
+        {
+            ServiceResponse<Restaurant> serviceResponse = new ServiceResponse<Restaurant>();
+            Restaurant restaurant = _restaurants.Find<Restaurant>(r => r.Id == id).FirstOrDefault();
+            serviceResponse.Data = restaurant;
+            return serviceResponse;
+        }
 
-        public void Remove(Restaurant restaurant) => _restaurants.DeleteOne(r => r.Id == restaurant.Id);
+        public ServiceResponse<List<Restaurant>> Create(Restaurant restaurant)
+        {
+            ServiceResponse<List<Restaurant>> serviceResponse = new ServiceResponse<List<Restaurant>>();
 
-        public void Remove(string id) => _restaurants.DeleteOne(r => r.Id == id);
+            //         if (await RestaurantExists(newRestaurant.Name))
+            //         {
+            //             serviceResponse.Success = false;
+            //             serviceResponse.Message = "Restaurant already exists.";
+
+            //             return serviceResponse;
+            //         }
+
+            // List<Restaurant> restaurants = 
+            _restaurants.InsertOne(restaurant);
+            List<Restaurant> restaurants = _restaurants.Find(restaurant => true).ToList();
+
+            //         restaurant.AddedBy = await _context.Users.FirstOrDefaultAsync(u => u.Id == GetUserId());
+
+            serviceResponse.Data = restaurants;
+            return serviceResponse;
+        }
+
+        public ServiceResponse<Restaurant> Update(string id, Restaurant updatedRestaurant)
+        {
+            ServiceResponse<Restaurant> serviceResponse = new ServiceResponse<Restaurant>();
+
+            try
+            {
+                _restaurants.ReplaceOne(r => r.Id == id, updatedRestaurant);
+                Restaurant restaurant = _restaurants.Find<Restaurant>(r => r.Id == id).FirstOrDefault();
+                serviceResponse.Data = restaurant;
+            }
+            catch(Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
+
+        public ServiceResponse<List<Restaurant>> Remove(string id)
+        {
+            ServiceResponse<List<Restaurant>> serviceResponse = new ServiceResponse<List<Restaurant>>();
+
+            try
+            {
+                _restaurants.DeleteOne(r => r.Id == id);
+                List<Restaurant> restaurants = _restaurants.Find(restaurant => true).ToList();
+                serviceResponse.Data = restaurants;
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+        }
     }
 }
