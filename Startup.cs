@@ -1,7 +1,9 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +29,18 @@ namespace Restaurant_Picker
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                    });
+            });
+
             services.Configure<DatabaseSettings>(Configuration.GetSection(nameof(DatabaseSettings)));
             services.AddSingleton<IDatabaseSettings>(s => s.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
@@ -34,7 +48,16 @@ namespace Restaurant_Picker
 
             services.AddScoped<IAuthRepository, AuthRepository>();
 
+            services.AddControllers()
+                .AddJsonOptions(o =>
+                {
+                    o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
+
             services.AddControllersWithViews();
+
+            services.AddAutoMapper(typeof(Startup));
+
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => 
 		    {
@@ -53,6 +76,8 @@ namespace Restaurant_Picker
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +99,10 @@ namespace Restaurant_Picker
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            // app.UseCors();
+            app.UseCors(options => options.WithOrigins("localhost:5000", "localhost:5001"));
+
 
             app.UseAuthentication();
 

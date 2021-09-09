@@ -31,7 +31,7 @@ class PickRestaurant extends React.Component {
 
     componentDidMount() {
         Promise.all([
-            fetch('http://localhost:5000/restaurant/GetNotVisited', {
+            fetch('https://localhost:5001/restaurant/GetNotVisited', {
                 method: 'get',
                 headers: {
                     'Accept': 'application/json',
@@ -40,7 +40,7 @@ class PickRestaurant extends React.Component {
                 }
             })
             .then(res => res.json()),
-            fetch('http://localhost:5000/restaurant/GetVisitedSingle',  {
+            fetch('https://localhost:5001/restaurant/GetRestaurantByDate',  {
                 method: 'get',
                 headers: {
                     'Accept': 'application/json',
@@ -88,7 +88,7 @@ class PickRestaurant extends React.Component {
                 showForm: false
             });
 
-            fetch("http://localhost:5000/restaurant", {
+            fetch("https://localhost:5001/restaurant/" + this.state.restaurants.data[randomRestaurant].id, {
                 method: 'put',
                 headers: {
                     'Accept': 'application/json',
@@ -101,7 +101,7 @@ class PickRestaurant extends React.Component {
                     location: this.state.restaurants.data[randomRestaurant].location,
                     cuisine: this.state.restaurants.data[randomRestaurant].cuisine,
                     visited: true,
-                    dateVisited: new Date(this.state.visitationDate)
+                    visitedOn: new Date(this.state.visitationDate)
                 })
             })
             .then (response => response.json())
@@ -157,7 +157,7 @@ class PickRestaurant extends React.Component {
                     {this.state.visitedRestaurant.data != null ?
                     <div className="already-chosen-restaurant-container">
                         <div className="chosen-restaurant-container">
-                            <h2 className="already-chosen-restaurant-title">The next visit is on {moment(this.state.visitedRestaurant.data.dateVisited).format('MMMM Do YYYY')}</h2>
+                            <h2 className="already-chosen-restaurant-title">The next visit is on {moment(this.state.visitedRestaurant.data.visitiedOn).format('MMMM Do YYYY')}</h2>
                             <h3 className="chosen-restaurant-name">{this.state.visitedRestaurant.data.name}</h3>
                             <div className="chosen-restaurant-info">
                                 <h4 className="chosen-restaurant-location"><u><b>Location:</b></u> {this.state.visitedRestaurant.data.location}</h4>

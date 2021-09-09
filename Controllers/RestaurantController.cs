@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant_Picker.Models;
 using Restaurant_Picker.Services;
@@ -10,6 +11,7 @@ namespace Restaurant_Picker.Controllers
     [Authorize]
     [Route("[controller]")]
     [ApiController]
+    [EnableCors("AllowAll")]
     public class RestaurantController : ControllerBase
     {
         private readonly RestaurantService _restaurantService;
@@ -25,10 +27,34 @@ namespace Restaurant_Picker.Controllers
             return Ok(_restaurantService.Get());
         }
 
+        [HttpGet("GetVisited")]
+        public ActionResult GetVisited()
+        {
+            return Ok(_restaurantService.GetVisited());
+        }
+
+        [HttpGet("GetNotVisited")]
+        public ActionResult GetNotVisited()
+        {
+            return Ok(_restaurantService.GetNotVisited());
+        }
+
+        [HttpGet("GetUserRestaurants")]
+        public ActionResult GetUserRestaurants()
+        {
+            return Ok(_restaurantService.GetUserRestaurants());
+        }
+
         [HttpGet("{id}")]
         public ActionResult Get(string id)
         {
             return Ok(_restaurantService.Get(id));
+        }
+
+        [HttpGet("GetRestaurantByDate")]
+        public IActionResult GetRestaurantByDate()
+        {
+            return Ok(_restaurantService.GetRestaurantByDate());
         }
 
         [HttpPost]
@@ -67,5 +93,10 @@ namespace Restaurant_Picker.Controllers
             return Ok(response);
         }
 
+        [HttpGet("GetCuisines")]
+        public IActionResult GetCuisines()
+        {
+            return Ok(_restaurantService.GetCuisines());
+        }
     }
 }
