@@ -24,7 +24,7 @@ namespace Restaurant_Picker.Services
             _mapper = mapper;
             _config = config;
 
-            var client = new MongoClient(_config["AppSettings:DatabaseSettings:ConnectionString"]);
+            var client = new MongoClient(Environment.GetEnvironmentVariable("ConnectionString"));
             var database = client.GetDatabase(settings.DatabaseName);
 
             _restaurants = database.GetCollection<Restaurant>(settings.RestaurantsCollectionName);

@@ -39,7 +39,7 @@ import { UncontrolledAlert } from 'reactstrap';
     }
 
     handleLogin(event) {
-        fetch('http://localhost:5000/auth/Login', {
+        fetch('https://restaurant-picker5.herokuapp.com/auth/Login', {
             method: 'post',
             headers: {
                 'Accept': 'application/json',

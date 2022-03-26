@@ -18,7 +18,7 @@ class ViewRestaurants extends React.Component {
 
     componentDidMount() {
         Promise.all([
-            fetch('http://localhost:5000/restaurant/GetNotVisited', {
+            fetch('https://restaurant-picker5.herokuapp.com/restaurant/GetNotVisited', {
                 method: 'get',
                 headers: {
                     'Accept': 'application/json',
@@ -27,7 +27,7 @@ class ViewRestaurants extends React.Component {
                 }
             })
             .then(res => res.json()),
-            fetch('http://localhost:5000/restaurant/GetVisited',  {
+            fetch('https://restaurant-picker5.herokuapp.com/restaurant/GetVisited',  {
                 method: 'get',
                 headers: {
                     'Accept': 'application/json',

@@ -15,7 +15,7 @@ class UserRestaurants extends React.Component {
    }
 
     componentDidMount() {
-        fetch('http://localhost:5000/restaurant/GetUserRestaurants', {
+        fetch('https://restaurant-picker5.herokuapp.com/restaurant/GetUserRestaurants', {
             method: 'get',
             headers: {
                 'Accept': 'application/json',

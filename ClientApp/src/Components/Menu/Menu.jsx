@@ -20,7 +20,7 @@ class Menu extends React.Component {
         return (
             <div className="menu-container flex-column">
                 <div className="menu-header row">
-                    <h3>Hello, {sessionStorage.getItem('username')}</h3>
+                    <h3>Welcome, {sessionStorage.getItem('username')}</h3>
                     <button type="button" className="btn btn-link" onClick={this.handleLogout}>
                         <span className="menu-logout-button">(Logout)</span>
                     </button>
@@ -29,16 +29,16 @@ class Menu extends React.Component {
 
                 <ul className="nav menu-nav flex-column">
                     <li className="nav-item">
-                        <NavLink className="menu-nav-link" tag={Link} to="/AddRestaurant">Add Restaurant</NavLink>
+                        <NavLink className="menu-nav-link" tag={Link} to="/AddRestaurant">- Add Restaurant -</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink className="menu-nav-link" tag={Link} to="/ViewRestaurants">View Restaurants</NavLink>
+                        <NavLink className="menu-nav-link" tag={Link} to="/ViewRestaurants">- View Restaurants -</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink className="menu-nav-link" tag={Link} to="/MyRestaurants">My Restaurants</NavLink>
+                        <NavLink className="menu-nav-link" tag={Link} to="/MyRestaurants">- My Restaurants -</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink className="menu-nav-link" tag={Link} to="/PickRestaurant">Pick Restaurant</NavLink>
+                        <NavLink className="menu-nav-link" tag={Link} to="/PickRestaurant">- Pick Restaurant -</NavLink>
                     </li>
                 </ul>
             </div>

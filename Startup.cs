@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -59,13 +60,12 @@ namespace Restaurant_Picker
 
             services.AddAutoMapper(typeof(Startup));
 
-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => 
 		    {
 			    options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["AppSettings:AppSettings:Token"])),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("Token"))),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };

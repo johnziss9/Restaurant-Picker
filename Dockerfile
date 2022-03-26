@@ -11,6 +11,9 @@ COPY *.csproj ./
 RUN dotnet restore
 
 # Install node
+
+# NEED TO REMOVE THIS LINE
+RUN npm set strict-ssl false 
 RUN npm install -g npm
 RUN npm --version
 
@@ -26,4 +29,5 @@ COPY --from=build /app/out .
 # Run the app on container startup
 # Use your project name for the second parameter
 # e.g. MyProject.dll
-ENTRYPOINT [ "dotnet", "Restaurant-Picker.dll" ]
+# ENTRYPOINT [ "dotnet", "Restaurant-Picker.dll" ]
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet Restaurant-Picker.dll

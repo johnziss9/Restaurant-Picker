@@ -26,7 +26,7 @@ class AddRestaurant extends React.Component {
    }
 
    componentDidMount() {
-    fetch("http://localhost:5000/restaurant/GetCuisines", {
+    fetch("https://restaurant-picker5.herokuapp.com/restaurant/GetCuisines", {
         method: 'get',
         headers: {
             'Accept': 'application/json',
@@ -62,7 +62,7 @@ class AddRestaurant extends React.Component {
         else if (this.state.cuisine == 'Select Cuisine' || this.state.cuisine == '')
             alert('Select cuisine. If not sure, select \"Other\" option.');
 
-        fetch('http://localhost:5000/restaurant', {
+        fetch('https://restaurant-picker5.herokuapp.com/restaurant', {
             method: 'post',
             headers: {
                 'Accept': 'application/json',

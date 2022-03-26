@@ -33,10 +33,14 @@
     margin-bottom: 40px;
 }
 
-.chosen-restaurant-name {
+.chosen-restaurant-name-date {
     margin-bottom: 40px;
     border: 3px dotted #000;
     padding: 20px 0 20px 0;
+}
+
+.chosen-restaurant-name {
+    margin-bottom: 10px;
 }
 
 .chosen-restaurant-info {

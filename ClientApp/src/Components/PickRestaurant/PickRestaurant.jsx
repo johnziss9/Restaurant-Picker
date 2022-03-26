@@ -31,7 +31,7 @@ class PickRestaurant extends React.Component {
 
     componentDidMount() {
         Promise.all([
-            fetch('http://localhost:5000/restaurant/GetNotVisited', {
+            fetch('https://restaurant-picker5.herokuapp.com/restaurant/GetNotVisited', {
                 method: 'get',
                 headers: {
                     'Accept': 'application/json',
@@ -40,7 +40,7 @@ class PickRestaurant extends React.Component {
                 }
             })
             .then(res => res.json()),
-            fetch('http://localhost:5000/restaurant/GetRestaurantByDate',  {
+            fetch('https://restaurant-picker5.herokuapp.com/restaurant/GetRestaurantByDate',  {
                 method: 'get',
                 headers: {
                     'Accept': 'application/json',
@@ -83,12 +83,12 @@ class PickRestaurant extends React.Component {
                     name: this.state.restaurants.data[randomRestaurant].name ,
                     location: this.state.restaurants.data[randomRestaurant].location,
                     cuisine: this.state.restaurants.data[randomRestaurant].cuisine,
-                    addedOn: this.state.restaurants.data[randomRestaurant].addedOn,
+                    addedOn: this.state.restaurants.data[randomRestaurant].addedOn
                 },
                 showForm: false
             });
 
-            fetch("http://localhost:5000/restaurant/" + this.state.restaurants.data[randomRestaurant].id, {
+            fetch("https://restaurant-picker5.herokuapp.com/restaurant/" + this.state.restaurants.data[randomRestaurant].id, {
                 method: 'put',
                 headers: {
                     'Accept': 'application/json',
@@ -145,25 +145,28 @@ class PickRestaurant extends React.Component {
                     {this.state.showChosenRestaurant
                         ?   <div className="chosen-restaurant-container">
                                 <h2 className="chosen-restaurant-title">The randomly chosen restaurant is:</h2>
-                                <h3 className="chosen-restaurant-name">{this.state.chosenRestaurant.name}</h3>
+                                <div className='chosen-restaurant-name-date'>
+                                    <h3 className="chosen-restaurant-name">{this.state.chosenRestaurant.name}</h3>
+                                    <h5>Scheduled for {moment(this.state.visitationDate).format('DD/MM/YYYY')}</h5>
+                                </div>
                                 <div className="chosen-restaurant-info">
                                     <h4 className="chosen-restaurant-location"><u><b>Location:</b></u> {this.state.chosenRestaurant.location}</h4>
                                     <h4 className="chosen-restaurant-cuisine"><u><b>Cuisine:</b></u> {this.state.chosenRestaurant.cuisine}</h4>
                                 </div>
-                                <p className="chosen-restaurant-user-date">This restaurant was added on {moment(this.state.chosenRestaurant.addedOn).format('MMMM Do YYYY')}.</p>
+                                {/* <p className="chosen-restaurant-user-date">This restaurant was added on {moment(this.state.chosenRestaurant.addedOn).format('MMMM Do YYYY')}.</p> */}
                                 <button type="button" className="btn btn-dark" onClick={this.handleDone}>Save & Exit</button>
                             </div>     
                         : null }
                     {this.state.visitedRestaurant.data != null ?
                     <div className="already-chosen-restaurant-container">
                         <div className="chosen-restaurant-container">
-                            <h2 className="already-chosen-restaurant-title">The next visit is on {moment(this.state.visitedRestaurant.data.visitiedOn).format('MMMM Do YYYY')}</h2>
+                            <h2 className="already-chosen-restaurant-title">The next visit is on {moment(this.state.visitedRestaurant.data.visitedOn).format('MMMM Do YYYY')}</h2>
                             <h3 className="chosen-restaurant-name">{this.state.visitedRestaurant.data.name}</h3>
                             <div className="chosen-restaurant-info">
                                 <h4 className="chosen-restaurant-location"><u><b>Location:</b></u> {this.state.visitedRestaurant.data.location}</h4>
                                 <h4 className="chosen-restaurant-cuisine"><u><b>Cuisine:</b></u> {this.state.visitedRestaurant.data.cuisine}</h4>
                             </div>
-                            <p className="chosen-restaurant-user-date">This restaurant was added on {moment(this.state.visitedRestaurant.data.addedOn).format('MMMM Do YYYY')}.</p>
+                            {/* <p className="chosen-restaurant-user-date">This restaurant was added on {moment(this.state.visitedRestaurant.data.addedOn).format('MMMM Do YYYY')}.</p> */}
                         </div> 
                     </div>
                     :
