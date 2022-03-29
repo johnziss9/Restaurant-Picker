@@ -20,7 +20,7 @@ class Menu extends React.Component {
         return (
             <div className="menu-container flex-column">
                 <div className="menu-header row">
-                    <h3>Welcome, {sessionStorage.getItem('username')}</h3>
+                    <h2>Welcome, {sessionStorage.getItem('username')}</h2>
                     <button type="button" className="btn btn-link" onClick={this.handleLogout}>
                         <span className="menu-logout-button">(Logout)</span>
                     </button>
