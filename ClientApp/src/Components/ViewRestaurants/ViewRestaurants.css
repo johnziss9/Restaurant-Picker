@@ -1,91 +1,117 @@
-.view-restaurants-container {
-    background: url("../../Images/view-restaurants.jpeg");
-    width: 100%;
-    min-height: 100vh;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-}
-
 /* Loading CSS */
 
 .view-restaurants-container-loading {
-    background: url("../../Images/view-restaurants.jpeg");
     width: 100%;
-    height: 100vh;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
     display: flex;
     align-items: center;
+    flex-direction: column;
 }
 
 .view-restaurants-loading-gif {
-    margin: 50px 0 30px 0; 
+    margin-top: 50px; 
 }
 
 .view-restaurants-loading-text {
     font-size: 25px;
+    font-weight: 400;
+    margin-top: 20px;
 }
 
-/* Menu */
+/* Page Content */
 
-.view-restaurant-buttons-container {
+.view-restaurants-wrapper {
+    background-color: #000;
+    height: 100vh;
+    display: flex;
+    flex-direction: column; 
+}
+
+.view-restaurants-title {
+    color: #fff;
+    font-size: 60px;
+    font-weight: 600;
+    margin-top: 55px;
+    position: relative;
+}
+
+/* Bottom */
+
+.view-restaurants-bottom {
+    background-color: #fff;
+    height: 80vh;
+    margin-top: auto;
+    border-top: 4px solid #e64d00;
+}
+
+.view-restaurants-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 10px 0 10px 0;
+    flex-direction: column;
 }
 
-.view-restaurant-buttons-container > .view-filtered-restaurants {
-    font-size: 19px;
-    color: #000;
-}
+/* Search Bar */
 
-.view-restaurant-buttons-container > .view-filtered-restaurants:hover {
-    color: #000;
-}
-
-.view-restaurant-buttons-container > .active {
-    border-bottom: 2px solid #000;
-}
-
-.view-restaurant-buttons-container > .view-filtered-restaurants:focus {
-    outline: none;
-    box-shadow: none;
-    text-decoration: none;
-}
-
-/* Content CSS */
-
-.view-restaurants-content-container {
-    display: flex;
-    justify-content: center;
-}
-
-.view-restaurants-content {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    justify-content: center;
-}
-
-.view-restaurant-container {
-    border: 2px solid black;
-    margin: 20px;
-    width: 280px;
-    height: 230px;
-    border-radius: 5%;
-    background: linear-gradient(90deg, rgb(255, 255, 255, 0.9) 0%, rgb(206, 190, 187, 0.9) 100%) !important;
-    text-align: center;
-}
-
-.view-restaurant-name {
-    padding: 15px 0 15px 0;
+.view-restaurants-search-container {
+    width: 350px;
     border-bottom: 2px solid black;
+    margin-top: 20px;
 }
 
-.view-restaurant-location {
-    margin-top: 25px;
+.view-restaurants-search {
+    border: none !important;
+    box-shadow: none !important;
+    font-weight: 400;
+    font-size: 19px !important;
+}
+
+/* Keys */
+
+.view-restaurants-key {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.view-restaurants-visited {
+    width: 93px;
+    height: 25px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 17px;
+    margin-right: 10px;
+}
+
+.view-restaurants-visited-key {
+    background-color: gray;
+    width: 30px;
+    height: 25px;
+}
+
+.view-restaurants-not-visited {
+    width: 120px;
+    height: 25px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 17px;
+    margin-left: 10px;
+}
+
+.view-restaurants-not-visited-key {
+    background-color: #e64d00;
+    width: 30px;
+    height: 25px;
+}
+
+/* Card Container */
+
+.view-restaurants-card-container {
+    width: auto;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }

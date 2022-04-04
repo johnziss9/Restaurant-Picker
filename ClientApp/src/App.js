@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import './App.css';
 import Home from './Components/Home/Home';
 import ViewRestaurants from './Components/ViewRestaurants/ViewRestaurants';
 import Menu from './Components/Menu/Menu';

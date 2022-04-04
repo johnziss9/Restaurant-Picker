@@ -1,21 +1,95 @@
-.home-container {
-    background: url("../../Images/home.jpg");
-    width: 100%;
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@600&display=swap');
+
+.home-wrapper {
+    background-color: #000;
     height: 100vh;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column; 
 }
 
-.login-btn {
+.home-content {
+    padding-top: 50px;
+}
+
+/* Title */
+
+.home-title {
+    color: #fff;
+    font-size: 70px;
+}
+
+/* Login Button */
+
+.home-login-btn {
     width: 200px;
     height: 50px;
+    margin-top: 15px;
+    background-color: #e64d00 !important;
+    border: none !important;
+    border-radius: 3%;
 }
 
-.login-form-btn {
+.home-login-btn:hover {
+    text-decoration: underline !important;
+}
+
+/* Login Form */
+
+.login-form {
+    margin-top: 20px;
+}
+
+.home-textbox {
+    width: 300px !important;
+    margin: 0 5px;
+}
+
+.home-form-login-btn {
     width: 90px;
     margin: 0 5px 0 5px;
+    border: none !important;
+    border-radius: 3%;
+}
+
+#home-form-login-btn-login {
+    background-color: #e64d00 !important;
+}
+
+.home-login-bottom {
+    background-color: #fff;
+    height: 55vh;
+    margin-top: auto;
+    border-top: 4px solid #e64d00;
+}
+
+.home-container {
+    margin-top: 30px
+}
+
+@media (max-width: 800px) {
+    .home-title {
+        font-size: 60px;
+    }
+}
+
+@media (max-width: 600px) {
+    .home-title {
+        font-size: 55px;
+    }
+}
+
+@media (max-width: 500px) {
+    .home-title {
+        font-size: 45px;
+    }
+}
+
+@media (max-height: 650px) {
+    .home-wrapper {
+        height: auto;
+    }
+
+    .home-login-btn {
+        margin-bottom: 20px;
+    }
 }

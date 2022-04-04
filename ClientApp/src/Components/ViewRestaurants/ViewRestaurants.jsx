@@ -1,8 +1,11 @@
-import moment from 'moment';
 import React from 'react';
 import './ViewRestaurants.css'
-import Header from '../Header/Header';
 import Loading from '../../Images/loading.gif';
+import { Link } from 'react-router-dom';
+import { NavLink } from 'reactstrap';
+import HomeButton from '../../Images/home.png';
+import RestaurantCard from '../RestaurantCard/RestaurantCard';
+import _ from 'lodash';
 
 class ViewRestaurants extends React.Component {
 
@@ -10,39 +13,29 @@ class ViewRestaurants extends React.Component {
         super(props);
         this.state = {
         isLoaded: false,
+        restaurants: [],
         notVisitedRestaurants: [],
         visitedRestaurants: [],
-        showVisited: false
+        showVisited: false,
+        input: ""
        }
    }
-
     componentDidMount() {
-        Promise.all([
-            fetch('https://restaurant-picker5.herokuapp.com/restaurant/GetNotVisited', {
-                method: 'get',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token')
-                }
-            })
-            .then(res => res.json()),
-            fetch('https://restaurant-picker5.herokuapp.com/restaurant/GetVisited',  {
-                method: 'get',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token')
-                }
-            })
-            .then(res => res.json())
-        ]).then(([notVisitedRestaurantData, visitedRestaurantData]) => {
+        fetch('https://restaurant-picker5.herokuapp.com/restaurant/GetAll', {
+            method: 'get',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+            }
+        })
+        .then (response => response.json())
+        .then (data => {
             this.setState({
                 isLoaded: true,
-                notVisitedRestaurants: notVisitedRestaurantData,
-                visitedRestaurants: visitedRestaurantData
+                restaurants: data
             });
-        })
+        });
     }
    
     handleActiveButton = e => {
@@ -64,42 +57,80 @@ class ViewRestaurants extends React.Component {
 
     render() {
         if (!this.state.isLoaded) {
-            return (<div className="view-restaurants-container-loading flex-column">
-                        <img src={Loading} alt="loading" className="view-restaurants-loading-gif" />
-                        <p className="view-restaurants-loading-text">Loading Restaurants...</p>
-                    </div>)
-        } else {
-        return (
-            <div className="view-restaurants-container">
-                <div className="view-restaurants-header-buttons container">
-                    <Header title="View Restaurants" />
-                    <div className="view-restaurant-buttons-container">
-                        <button className="btn btn-link view-filtered-restaurants active" onClick={this.handleActiveButton}>Not Visited</button>
-                        <button className="btn btn-link view-filtered-restaurants" onClick={this.handleActiveButton}>Visited</button>
+            return (
+                <div className='view-restaurants-wrapper'>
+                    <div className='container'>
+                        <h1 className='view-restaurants-title'>My Restaurants
+                            <span className='homepage-button'>
+                                <NavLink tag={Link} to="/Menu">
+                                    <img src={HomeButton} alt='home-button' className='homepage-button-image' />
+                                </NavLink>
+                            </span>
+                        </h1>
+                    </div>
+                    <div className='view-restaurants-bottom'>
+                        <div className='container view-restaurants-container'>
+                            <div className="view-restaurants-container-loading">
+                                <img src={Loading} alt="loading" className="view-restaurants-loading-gif" />
+                                <p className="view-restaurants-loading-text">Loading Restaurants...</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className="view-restaurants-content-container container">
-                    {!this.state.showVisited ?
-                    <div className="view-restaurants-content">
-                        {Array.isArray(this.state.notVisitedRestaurants.data) && this.state.notVisitedRestaurants.data.map( res => (
-                            <div className="view-restaurant-container" key={res.id}>
-                                <h4 className="view-restaurant-name">{res.name}</h4>
-                                <p className="view-restaurant-location">{res.location}</p>
-                                <p className="view-restaurant-cuisine">{res.cuisine}</p>
-                                <small className="view-restaurant-user-details">Added on {moment(res.addedOn).format('MMMM Do YYYY')}</small>
+            )
+        } else {
+        return (
+            <div className='view-restaurants-wrapper'>
+                <div className='container'>
+                    <h1 className='view-restaurants-title'>View Restaurants
+                        <span className='homepage-button'>
+                            <NavLink tag={Link} to="/Menu">
+                                <img src={HomeButton} alt='home-button' className='homepage-button-image' />
+                            </NavLink>
+                        </span>
+                    </h1>
+                </div>
+                <div className='view-restaurants-bottom'>
+                    <div className='container view-restaurants-container'>
+                        <div className="form-group view-restaurants-search-container">
+                            <span className="fa fa-search"></span>
+                            <input type="text" className="form-control view-restaurants-search" placeholder="Search name..." onChange={event => this.setState({ input: event.target.value})} />
+                        </div>
+                        <div className='view-restaurants-key'>
+                            <div className='view-restaurants-visited'>
+                                <div className='view-restaurants-visited-key'></div>
+                                <div>Visited</div>
                             </div>
-                        ))}
-                    </div> :
-                    <div className="view-restaurants-content">
-                        {Array.isArray(this.state.visitedRestaurants.data) && this.state.visitedRestaurants.data.map( res => (
-                            <div className="view-restaurant-container" key={res.id}>
-                                <h4 className="view-restaurant-name">{res.name}</h4>
-                                <p className="view-restaurant-location">{res.location}</p>
-                                <p className="view-restaurant-cuisine">{res.cuisine}</p>
-                                <small className="view-restaurant-user-details">Added on {moment(res.addedOn).format('MMMM Do YYYY')}</small>
+                            <div className='view-restaurants-not-visited'>
+                                <div className='view-restaurants-not-visited-key'></div>
+                                <div>Not Visited</div>
                             </div>
-                        ))}
-                    </div> }
+                        </div>
+                        <div className='view-restaurants-card-container'>
+                            {Array.isArray(this.state.restaurants.data) && 
+                                _.orderBy(this.state.restaurants.data, ['name'], ['asc'])
+                                .filter((el) => { 
+                                    if (this.state.input === '') {
+                                        return el;
+                                    }
+                                    else {
+                                        return el.name.toLowerCase().includes(this.state.input)
+                                    }
+                                })
+                                .map( res => (
+                                <RestaurantCard 
+                                    key={res.id}
+                                    name={res.name}
+                                    location={res.location}
+                                    cuisine={res.cuisine}
+                                    visited={res.visited}
+                                    addedBy={res.addedBy.username}
+                                    addedOn={res.addedOn}
+                                    visitedOn={res.visited == true ? res.visitedOn : 'N/A'}
+                                />
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
         )};
