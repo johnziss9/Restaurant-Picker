@@ -95,7 +95,7 @@ class UserRestaurants extends React.Component {
                                         return el;
                                     }
                                     else {
-                                        return el.name.toLowerCase().includes(this.state.input)
+                                        return el.name.toLowerCase().includes(this.state.input.toLowerCase())
                                     }
                                 })
                                 .map( res => (

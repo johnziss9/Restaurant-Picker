@@ -37,30 +37,13 @@ class ViewRestaurants extends React.Component {
             });
         });
     }
-   
-    handleActiveButton = e => {
-        const viewRestaurantButtons = document.getElementsByClassName('view-filtered-restaurants');
-
-        Array.from(viewRestaurantButtons).forEach(element => element.classList.remove('active'));
-        e.target.classList.add('active');
-
-        if (this.state.showVisited) {
-            this.setState({
-                showVisited: false        
-            })
-        } else {
-            this.setState({
-                showVisited: true        
-            })
-        }
-    }
 
     render() {
         if (!this.state.isLoaded) {
             return (
                 <div className='view-restaurants-wrapper'>
                     <div className='container'>
-                        <h1 className='view-restaurants-title'>My Restaurants
+                        <h1 className='view-restaurants-title'>View Restaurants
                             <span className='homepage-button'>
                                 <NavLink tag={Link} to="/Menu">
                                     <img src={HomeButton} alt='home-button' className='homepage-button-image' />
@@ -114,7 +97,7 @@ class ViewRestaurants extends React.Component {
                                         return el;
                                     }
                                     else {
-                                        return el.name.toLowerCase().includes(this.state.input)
+                                        return el.name.toLowerCase().includes(this.state.input.toLowerCase())
                                     }
                                 })
                                 .map( res => (
