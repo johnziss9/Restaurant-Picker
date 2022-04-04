@@ -1,22 +1,91 @@
-.add-restaurant-container {
-    background: url("../../Images/add-restaurant.jpeg");
-    width: 100%;
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@600&display=swap');
+
+.add-restaurant-wrapper {
+    background-color: #000;
     height: 100vh;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    display: flex;
+    flex-direction: column; 
+}
+
+.add-restaurant-title {
+    color: #fff;
+    font-size: 60px;
+    font-weight: 600;
+    margin-top: 55px;
+    position: relative;
+}
+
+/* Homepage Button */
+
+.homepage-button {
+    position: absolute;
+    bottom: -3px;
+    right: 0;
+}
+
+.homepage-button-image {
+    width: 45px;
+}
+
+/* Bottom */
+
+.add-restaurant-bottom {
+    background-color: #fff;
+    height: 80vh;
+    margin-top: auto;
+    border-top: 4px solid #e64d00;
+}
+
+/* Form */
+
+.add-restaurant-form {
+    margin-top: 30px;
+    font-weight: 400;
+    font-weight: bold;
+}
+
+label {
+    font-size: 20px;
 }
 
 .add-restaurant-submit {
     margin-top: 25px;
+    margin-bottom: 20px;
+    width: 150px;
+    height: 40px;
+    background-color: #e64d00 !important;
+    border: none !important;
+    border-radius: 3%;
 }
 
-.view-restaurants-alert-link {
-    color: #000;
-    text-decoration: underline;
-    margin: -0.5em 0 0 -1rem;
+.add-restaurant-submit:hover {
+    text-decoration: underline !important;
 }
 
-.view-restaurants-alert-link:hover {
-    color: #000;
+@media (max-width: 800px) {
+    .add-restaurant-title {
+        font-size: 50px;
+    }
+
+    .homepage-button {
+        bottom: -4px;
+    }
+    
+    .homepage-button-image {
+        width: 40px;
+    }
+}
+
+@media (max-width: 650px) {
+    .add-restaurant-title {
+        font-size: 40px;
+    }
+
+    .homepage-button {
+        bottom: -4px;
+    }
+    
+    .homepage-button-image {
+        width: 33px;
+    }
 }

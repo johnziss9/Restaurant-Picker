@@ -1,9 +1,9 @@
 import React from 'react';
 import './PickRestaurant.css'
-import Header from '../Header/Header';
 import { Link } from 'react-router-dom';
 import { NavLink, UncontrolledAlert } from 'reactstrap';
-import moment from 'moment';
+import HomeButton from '../../Images/home.png';
+import ChosenRestaurantCard from '../ChosenRestaurantCard/ChosenRestaurantCard';
 
 class PickRestaurant extends React.Component {
 
@@ -11,18 +11,13 @@ class PickRestaurant extends React.Component {
         super(props);
         this.state = {
             restaurants: [],
-            visitedRestaurant: {},
             visitationDate: new Date(),
-            chosenRestaurant: {
-                name: '',
-                location: '',
-                cuisine: '',
-                addedOn: new Date().toLocaleString()
-            },
+            chosenRestaurant: {},
+            visitedRestaurant: {},
             showChosenRestaurant: false,
+            showForm: true,
             showErrorAlert: false,
             showDateAlert: false,
-            showForm: true
         }
 
         this.handleRandom = this.handleRandom.bind(this);
@@ -78,13 +73,15 @@ class PickRestaurant extends React.Component {
             const randomRestaurant = Math.floor(Math.random() * this.state.restaurants.data.length);
 
             this.setState({ 
-                showChosenRestaurant: true, 
                 chosenRestaurant: {
                     name: this.state.restaurants.data[randomRestaurant].name ,
-                    location: this.state.restaurants.data[randomRestaurant].location,
                     cuisine: this.state.restaurants.data[randomRestaurant].cuisine,
-                    addedOn: this.state.restaurants.data[randomRestaurant].addedOn
+                    location: this.state.restaurants.data[randomRestaurant].location,
+                    addedOn: this.state.restaurants.data[randomRestaurant].addedOn,
+                    addedBy: this.state.restaurants.data[randomRestaurant].addedBy.username,
+                    visitedOn: this.state.visitationDate
                 },
+                showChosenRestaurant: true,
                 showForm: false
             });
 
@@ -98,22 +95,16 @@ class PickRestaurant extends React.Component {
                 body: JSON.stringify({
                     id: this.state.restaurants.data[randomRestaurant].id,
                     name: this.state.restaurants.data[randomRestaurant].name,
-                    location: this.state.restaurants.data[randomRestaurant].location,
                     cuisine: this.state.restaurants.data[randomRestaurant].cuisine,
+                    location: this.state.restaurants.data[randomRestaurant].location,
                     visited: true,
-                    visitedOn: new Date(this.state.visitationDate)
+                    visitedOn: new Date(this.state.visitationDate),
+                    addedBy: this.state.restaurants.data[randomRestaurant].addedBy,
+                    addedOn: this.state.restaurants.data[randomRestaurant].addedOn,
                 })
             })
             .then (response => response.json())
         }
-    }
-
-    handleDone = () => {
-        this.setState({
-            showChosenRestaurant: false        
-        });
-
-        this.componentDidMount();
     }
 
     handleDate(event) {
@@ -124,61 +115,72 @@ class PickRestaurant extends React.Component {
 
     render() {
         return (
-            <div className="pick-restaurant-container">
-                <div className="container flex-column">
-                    <Header title="Pick Restaurant" />
-                    {this.state.showErrorAlert 
-                        ? <UncontrolledAlert color="danger">
-                            <h4>Uh-oh!</h4>
-                            <hr />
-                            <p>No more restaurants. Please add some restaurants before picking one.</p>
-                            <NavLink tag={Link} className="add-restaurant-alert-link" to="/AddRestaurant">Add Restaurant</NavLink>
-                        </UncontrolledAlert>
-                        : null }
-                    {this.state.showDateAlert 
-                        ? <UncontrolledAlert color="danger">
-                            <h4>Uh-oh!</h4>
-                            <hr />
-                            <p>Make sure the selected date is in the future.</p>
-                        </UncontrolledAlert>
-                        : null }
-                    {this.state.showChosenRestaurant
-                        ?   <div className="chosen-restaurant-container">
-                                <h2 className="chosen-restaurant-title">The randomly chosen restaurant is:</h2>
-                                <div className='chosen-restaurant-name-date'>
-                                    <h3 className="chosen-restaurant-name">{this.state.chosenRestaurant.name}</h3>
-                                    <h5>Scheduled for {moment(this.state.visitationDate).format('DD/MM/YYYY')}</h5>
+            <div className='pick-restaurant-wrapper'>
+                <div className='container'>
+                    <h1 className='pick-restaurant-title'>Pick Restaurant
+                        <span className='homepage-button'>
+                            <NavLink tag={Link} to="/Menu">
+                                <img src={HomeButton} alt='home-button' className='homepage-button-image' />
+                            </NavLink>
+                        </span>
+                    </h1>
+                </div>
+                <div className='pick-restaurant-bottom'>
+                    <div className="container pick-restaurant-bottom-container" style={{ justifyContent: this.state.visitedRestaurant.data != null || this.state.showChosenRestaurant ? 'center': 'left'}}>
+                        {this.state.showErrorAlert 
+                            ? <UncontrolledAlert color="danger">
+                                <h4>Uh-oh!</h4>
+                                <hr />
+                                <p>No more restaurants. Please add some restaurants before picking one.</p>
+                                <NavLink tag={Link} className="add-restaurant-alert-link" to="/AddRestaurant">Add Restaurant</NavLink>
+                            </UncontrolledAlert>
+                            : null }
+                        {this.state.showDateAlert 
+                            ? <UncontrolledAlert color="danger">
+                                <h4>Uh-oh!</h4>
+                                <hr />
+                                <p>Make sure the selected date is in the future.</p>
+                            </UncontrolledAlert>
+                            : null }
+                        {/* Showing the restaurant from the state when the button is clicked. */}
+                        {this.state.showChosenRestaurant ?
+                            <div>
+                                <h2 className='chosen-restaurant-title'>The next scheduled visit:</h2>
+                                <ChosenRestaurantCard 
+                                    name={this.state.chosenRestaurant.name}
+                                    location={this.state.chosenRestaurant.location}
+                                    cuisine={this.state.chosenRestaurant.cuisine}
+                                    visitedOn={this.state.visitationDate}
+                                    addedBy={this.state.chosenRestaurant.addedBy.username}
+                                    addedOn={this.state.chosenRestaurant.addedOn}
+                                />
+                            </div> :
+                            null
+                        }
+                        {/* Showing the restaurant when the page loads from the fetched object. */}
+                        {this.state.visitedRestaurant.data != null ?
+                            <div>
+                                <h2 className='chosen-restaurant-title'>The next scheduled visit:</h2>
+                                <ChosenRestaurantCard
+                                    name={this.state.visitedRestaurant.data.name}
+                                    location={this.state.visitedRestaurant.data.location}
+                                    cuisine={this.state.visitedRestaurant.data.cuisine}
+                                    visitedOn={this.state.visitedRestaurant.data.visitedOn}
+                                    addedBy={this.state.visitedRestaurant.data.addedBy.username}
+                                    addedOn={this.state.visitedRestaurant.data.addedOn}
+                                />
+                            </div> :
+                            <div className={!this.state.showForm ? "d-none" : "pick-restaurant-form"}>
+                                <div className="form-group row">
+                                    <label>Select date of visit:</label>
+                                    <input className="form-control" type="date" onSelect={this.handleDate} />
                                 </div>
-                                <div className="chosen-restaurant-info">
-                                    <h4 className="chosen-restaurant-location"><u><b>Location:</b></u> {this.state.chosenRestaurant.location}</h4>
-                                    <h4 className="chosen-restaurant-cuisine"><u><b>Cuisine:</b></u> {this.state.chosenRestaurant.cuisine}</h4>
+                                <div className="form-group row">
+                                    <button type="button" className="btn btn-dark pick-restaurant-form-button" onClick={this.handleRandom}>Pick a Random Restaurant</button>
                                 </div>
-                                {/* <p className="chosen-restaurant-user-date">This restaurant was added on {moment(this.state.chosenRestaurant.addedOn).format('MMMM Do YYYY')}.</p> */}
-                                <button type="button" className="btn btn-dark" onClick={this.handleDone}>Save & Exit</button>
-                            </div>     
-                        : null }
-                    {this.state.visitedRestaurant.data != null ?
-                    <div className="already-chosen-restaurant-container">
-                        <div className="chosen-restaurant-container">
-                            <h2 className="already-chosen-restaurant-title">The next visit is on {moment(this.state.visitedRestaurant.data.visitedOn).format('MMMM Do YYYY')}</h2>
-                            <h3 className="chosen-restaurant-name">{this.state.visitedRestaurant.data.name}</h3>
-                            <div className="chosen-restaurant-info">
-                                <h4 className="chosen-restaurant-location"><u><b>Location:</b></u> {this.state.visitedRestaurant.data.location}</h4>
-                                <h4 className="chosen-restaurant-cuisine"><u><b>Cuisine:</b></u> {this.state.visitedRestaurant.data.cuisine}</h4>
                             </div>
-                            {/* <p className="chosen-restaurant-user-date">This restaurant was added on {moment(this.state.visitedRestaurant.data.addedOn).format('MMMM Do YYYY')}.</p> */}
-                        </div> 
+                        }
                     </div>
-                    :
-                    <div className={!this.state.showForm ? "d-none" : "pick-restaurant-form"} >
-                        <div className="form-group row">
-                            <label className="pick-visit-date-label">Select date of visit:</label>
-                            <input className="form-control pick-visit-date" type="date" id="example-date-input" onSelect={this.handleDate} />
-                        </div>
-                        <div className="form-group row">
-                            <button type="button" className="btn btn-dark pick-restaurant-button" onClick={this.handleRandom}>Pick a Random Restaurant</button>
-                        </div>
-                    </div>}
                 </div>
             </div>
         );

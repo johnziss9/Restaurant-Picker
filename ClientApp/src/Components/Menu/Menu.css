@@ -1,42 +1,94 @@
-.menu-container {
-    background: url("../../Images/brick.jpg");
-    width: 100%;
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600&display=swap');
+
+.menu-wrapper {
+    background-color: #000;
     height: 100vh;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column; 
 }
+
+/* Header */
 
 .menu-header {
-    margin-bottom: 20px;
+    padding-top: 50px;
+    padding-bottom: 10px;
+}
+
+.menu-title {
     color: #fff;
-    font-weight: bold;
+    font-size: 60px;
+    font-weight: 600;
 }
 
-.menu-logout-button {
-    color: #fff ;
+.menu-title-username {
+    color: #e64d00;
 }
 
-.menu-logout-button:hover {
+/* Logout Button */
+
+.menu-logout-btn {
+    position: relative;
+}
+
+.menu-logout-btn:hover {
+    outline: none;
+    text-decoration: none;
+}
+
+.menu-logout-btn-link {
+    color: #fff;
+    position: absolute;
+    bottom: 16px;
+}
+
+.menu-logout-btn-link:hover {
     color: #fff ;
     text-decoration: underline;
 }
 
+/* Menu */
+
 .menu-nav {
-    text-align: center;
+    width: 325px;
+    font-weight: 400;
+}
+
+.menu-link-icon {
+    width: 30px;
+    margin-right: 10px;
 }
 
 .menu-nav-link {
     color: #fff;
-    font-size: 1.5em;
+    font-size: 32px;
 }
 
 .menu-nav-link:hover {
-    color: #fff;
-    text-decoration: underline;
-    font-size: 1.5em;
+    color: #e64d00;
     font-weight: bold;
+} 
+
+@media (max-width: 600px) {
+    .menu-title {
+        font-size: 45px;
+        padding-left: 15px;
+    }
+
+    .menu-logout-btn-link {
+        bottom: 13px;
+    }
+
+    .menu-nav-link {
+        font-size: 25px;
+    }
+}
+
+@media (max-height: 650px) {
+    .menu-container {
+        height: auto;
+    }
+
+    .menu-nav {
+        padding-bottom: 20px;
+    }
 }

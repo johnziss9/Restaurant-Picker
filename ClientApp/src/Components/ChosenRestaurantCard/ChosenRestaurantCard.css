@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@600&display=swap');
+
+.chosen-restaurant-card-wrapper {
+    width: 500px;
+    height: 300px;
+    border-radius: 3%;
+    margin-top: 20px;
+    font-weight: 600;
+    color: #fff;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+}
+
+.chosen-restaurant-card-title-container {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 33px;
+    background-color: #e64d00;
+    text-align: center;
+}
+
+.chosen-restaurant-card-title {
+    width: 100%;
+}
+
+.chosen-restaurant-card-date {
+    width: 100%;
+}
+
+.chosen-restaurant-card-triangle {
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    margin: 0 auto;
+    border-top: 10px solid #e64d00;
+}
+
+.chosen-restaurant-card-details {
+    margin: 20px 15px;
+    color: #000;
+    font-weight: 400;
+    font-size: 25px;
+}

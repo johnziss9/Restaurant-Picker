@@ -10,10 +10,10 @@ class NotFound extends React.Component {
             <div className="not-found-container">
                 <div className="not-found-content">
                     <div className="not-found-text">
-                        <p>Looks like the page you are trying to access doesn't exist. You have two options: </p>
+                        <p>It looks like the page you are trying to access doesn't exist. You have two options: </p>
                         <ol>
                             <li>Go back to the homepage.</li>
-                            <li>Call John and tell him there's a error with the website.</li>
+                            <li>Inform John there's a issue with the website.</li>
                         </ol>
                     </div>
                     {sessionStorage.getItem('token') == '' ?

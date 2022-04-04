@@ -1,8 +1,11 @@
-import moment from 'moment';
 import React from 'react';
 import './UserRestaurants.css'
-import Header from '../Header/Header';
 import Loading from '../../Images/loading.gif';
+import { Link } from 'react-router-dom';
+import { NavLink } from 'reactstrap';
+import HomeButton from '../../Images/home.png';
+import RestaurantCard from '../RestaurantCard/RestaurantCard';
+import _ from 'lodash';
 
 class UserRestaurants extends React.Component {
 
@@ -10,7 +13,8 @@ class UserRestaurants extends React.Component {
         super(props);
         this.state = {
             isLoaded: false,
-            restaurants: []
+            restaurants: [],
+            input: ""
         }
    }
 
@@ -29,38 +33,85 @@ class UserRestaurants extends React.Component {
                 isLoaded: true,
                 restaurants: data
             });
-
-            console.log(this.state.restaurants);
         });
     }
 
     render() {
         if (!this.state.isLoaded) {
-            return (<div className="user-restaurants-container-loading flex-column">
-                        <img src={Loading} alt="loading" className="user-restaurants-loading-gif" />
-                        <p className="user-restaurants-loading-text">Loading Restaurants...</p>
-                    </div>)
+            return (
+                <div className='user-restaurants-wrapper'>
+                    <div className='container'>
+                        <h1 className='user-restaurants-title'>My Restaurants
+                            <span className='homepage-button'>
+                                <NavLink tag={Link} to="/Menu">
+                                    <img src={HomeButton} alt='home-button' className='homepage-button-image' />
+                                </NavLink>
+                            </span>
+                        </h1>
+                    </div>
+                    <div className='user-restaurants-bottom'>
+                        <div className='container user-restaurants-container'>
+                            <div className="user-restaurants-container-loading">
+                                <img src={Loading} alt="loading" className="user-restaurants-loading-gif" />
+                                <p className="user-restaurants-loading-text">Loading Restaurants...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
         } else {
         return (
-            <div className="user-restaurants-container">
-                <div className="user-restaurants-header-buttons container">
-                    <Header title="My Restaurants" />
+            <div className='user-restaurants-wrapper'>
+                <div className='container'>
+                    <h1 className='user-restaurants-title'>My Restaurants
+                        <span className='homepage-button'>
+                            <NavLink tag={Link} to="/Menu">
+                                <img src={HomeButton} alt='home-button' className='homepage-button-image' />
+                            </NavLink>
+                        </span>
+                    </h1>
                 </div>
-                <div className="yser-restaurants-content-container container">
-                    <div className="user-restaurants-content">
-                        {Array.isArray(this.state.restaurants.data) && this.state.restaurants.data.map( res => (
-                            <div className="user-restaurant-container" key={res.id}>
-                                <h4 className="user-restaurant-name">{res.name}</h4>
-                                <p className="user-restaurant-location">{res.location}</p>
-                                <p className="user-restaurant-cuisine">{res.cuisine}</p>
-                                <small className="user-restaurant-user-details">Added on {moment(res.addedOn).format('MMMM Do YYYY')}</small>
-                                {res.visited ?
-                                    <p className="user-restaurant-visited">Visited</p> :
-                                    <p className="user-restaurant-visited">Not Visited</p>
-                                }
+                <div className='user-restaurants-bottom'>
+                    <div className='container user-restaurants-container'>
+                        <div className="form-group user-restaurants-search-container">
+                            <span className="fa fa-search"></span>
+                            <input type="text" className="form-control user-restaurants-search" placeholder="Search name..." onChange={event => this.setState({ input: event.target.value})} />
+                        </div>
+                        <div className='user-restaurants-key'>
+                            <div className='user-restaurants-visited'>
+                                <div className='user-restaurants-visited-key'></div>
+                                <div>Visited</div>
                             </div>
-                        ))}
-                    </div> 
+                            <div className='user-restaurants-not-visited'>
+                                <div className='user-restaurants-not-visited-key'></div>
+                                <div>Not Visited</div>
+                            </div>
+                        </div>
+                        <div className='user-restaurants-card-container'>
+                            {Array.isArray(this.state.restaurants.data) && 
+                                _.orderBy(this.state.restaurants.data, ['name'], ['asc'])
+                                .filter((el) => { 
+                                    if (this.state.input === '') {
+                                        return el;
+                                    }
+                                    else {
+                                        return el.name.toLowerCase().includes(this.state.input)
+                                    }
+                                })
+                                .map( res => (
+                                <RestaurantCard 
+                                    key={res.id}
+                                    name={res.name}
+                                    location={res.location}
+                                    cuisine={res.cuisine}
+                                    visited={res.visited}
+                                    addedBy={res.addedBy.username}
+                                    addedOn={res.addedOn}
+                                    visitedOn={res.visited == true ? res.visitedOn : 'N/A'}
+                                />
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
         )};

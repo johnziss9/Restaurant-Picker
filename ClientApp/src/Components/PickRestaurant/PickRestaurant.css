@@ -1,11 +1,38 @@
-.pick-restaurant-container {
-    background: url("../../Images/pick-restaurant.jpeg");
-    width: 100%;
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@600&display=swap');
+
+/* Page Content */
+
+.pick-restaurant-wrapper {
+    background-color: #000;
     height: 100vh;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    display: flex;
+    flex-direction: column; 
 }
+
+.pick-restaurant-title {
+    color: #fff;
+    font-size: 60px;
+    font-weight: 600;
+    margin-top: 55px;
+    position: relative;
+}
+
+/* Bottom */
+
+.pick-restaurant-bottom {
+    background-color: #fff;
+    height: 80vh;
+    margin-top: auto;
+    border-top: 4px solid #e64d00;
+}
+
+.pick-restaurant-bottom-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+/* No More Restaurant Alert Link */
 
 .add-restaurant-alert-link {
     color: #000;
@@ -17,48 +44,40 @@
     color: #000;
 }
 
-.pick-restaurant-button {
-    width: 100%;
+/* Chosen Restaurant */
+
+.chosen-restaurant-title {
+    text-align: center;
+    font-weight: 600;
+    margin-top: 30px;
 }
 
 .chosen-restaurant-container {
+    width: 600px;
+    border: 5px solid #e64d00;
+    margin-top: 30px;
+    color: #fff;
+    background-color: #000;
     text-align: center;
+}
+
+/* Form */
+
+.pick-restaurant-form {
+    margin-left: 15px;
+    font-weight: 400;
+    font-weight: bold;
+}
+
+.pick-restaurant-form-button {
+    margin-top: 10px;
+    width: 230px;
+    height: 40px;
+    background-color: #e64d00 !important;
+    border: none !important;
     border-radius: 3%;
-    background: linear-gradient(90deg, rgb(255, 255, 255, 0.9) 0%, rgb(206, 190, 187, 0.9) 100%) !important;
-    padding: 40px;
-    margin-bottom: 40px;
 }
 
-.chosen-restaurant-title {
-    margin-bottom: 40px;
-}
-
-.chosen-restaurant-name-date {
-    margin-bottom: 40px;
-    border: 3px dotted #000;
-    padding: 20px 0 20px 0;
-}
-
-.chosen-restaurant-name {
-    margin-bottom: 10px;
-}
-
-.chosen-restaurant-info {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 30px;
-}
-
-.chosen-restaurant-user-date {
-    margin-bottom: 30px;
-}
-
-.already-chosen-restaurant-title {
-    margin-bottom: 40px;
-}
-
-.pick-visit-date-label,
-.pick-visit-date,
-.pick-restaurant-button {
-    margin: 0 10px 0 10px;
+.form-group {
+    width: 350px;
 }
