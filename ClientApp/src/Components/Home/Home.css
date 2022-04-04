@@ -5,6 +5,7 @@
     height: 100vh;
     display: flex;
     flex-direction: column; 
+    font-family: 'Titillium Web', sans-serif;
 }
 
 .home-content {
@@ -55,15 +56,17 @@
     background-color: #e64d00 !important;
 }
 
+.home-wrapper-container {
+    margin-top: 30px
+}
+
+/* Bottom */
+
 .home-login-bottom {
     background-color: #fff;
     height: 55vh;
     margin-top: auto;
     border-top: 4px solid #e64d00;
-}
-
-.home-container {
-    margin-top: 30px
 }
 
 @media (max-width: 800px) {

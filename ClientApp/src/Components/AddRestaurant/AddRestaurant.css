@@ -5,6 +5,7 @@
     height: 100vh;
     display: flex;
     flex-direction: column; 
+    font-family: 'Titillium Web', sans-serif;
 }
 
 .add-restaurant-title {
@@ -49,9 +50,8 @@ label {
 }
 
 .add-restaurant-submit {
-    margin-top: 25px;
     margin-bottom: 20px;
-    width: 150px;
+    width: 230px;
     height: 40px;
     background-color: #e64d00 !important;
     border: none !important;
@@ -60,6 +60,10 @@ label {
 
 .add-restaurant-submit:hover {
     text-decoration: underline !important;
+}
+
+.form-group {
+    width: 350px;
 }
 
 @media (max-width: 800px) {

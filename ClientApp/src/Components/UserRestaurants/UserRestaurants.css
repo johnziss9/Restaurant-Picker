@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@600&display=swap');
+
 /* Loading CSS */
 
 .user-restaurants-container-loading {
@@ -24,6 +26,7 @@
     height: 100vh;
     display: flex;
     flex-direction: column; 
+    font-family: 'Titillium Web', sans-serif;
 }
 
 .user-restaurants-title {

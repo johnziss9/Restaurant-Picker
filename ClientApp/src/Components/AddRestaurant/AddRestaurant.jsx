@@ -128,13 +128,15 @@ class AddRestaurant extends React.Component {
                                 <label htmlFor="restaurant-location">Location:</label>
                                 <input type="text" className="form-control" id="restaurant-location" placeholder="Enter Restaurant Location" onChange={this.handleLocation} />
                             </div>
-                            <label htmlFor="restaurant-cuisine">Cuisine:</label>
-                            <select className="form-control" onChange={this.handleCuisine}>
-                                <option>Select Cuisine</option>
-                                {Array.isArray(this.state.cuisines.data) && _.orderBy(this.state.cuisines.data).map( c => (
-                                    <option key={c}>{c}</option>
-                                ))}
-                            </select>
+                            <div className="form-group">
+                                <label htmlFor="restaurant-cuisine">Cuisine:</label>
+                                <select className="form-control" onChange={this.handleCuisine}>
+                                    <option>Select Cuisine</option>
+                                    {Array.isArray(this.state.cuisines.data) && _.orderBy(this.state.cuisines.data).map( c => (
+                                        <option key={c}>{c}</option>
+                                    ))}
+                                </select>
+                            </div>
                             <button type="reset" className="btn btn-success add-restaurant-submit" onClick={this.handleSubmit}>Submit</button>
                         </form>
                     </div>           

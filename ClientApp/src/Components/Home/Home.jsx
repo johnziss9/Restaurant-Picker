@@ -67,7 +67,7 @@ import { UncontrolledAlert } from 'reactstrap';
      render() {
          return (
             <div className='home-wrapper'>
-                <div className='container home-container'>
+                <div className='container home-wrapper-container'>
                     {this.state.loginFail ?
                         <UncontrolledAlert color="danger">
                             <h4>Uh-oh!</h4>

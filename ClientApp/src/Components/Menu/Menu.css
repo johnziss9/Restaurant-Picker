@@ -5,6 +5,7 @@
     height: 100vh;
     display: flex;
     flex-direction: column; 
+    font-family: 'Titillium Web', sans-serif;
 }
 
 /* Header */
@@ -22,6 +23,15 @@
 
 .menu-title-username {
     color: #e64d00;
+}
+
+/* Bottom */
+
+.home-menu-bottom {
+    background-color: #fff;
+    height: 55vh;
+    margin-top: auto;
+    border-top: 4px solid #e64d00;
 }
 
 /* Logout Button */
