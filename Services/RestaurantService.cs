@@ -74,7 +74,7 @@ namespace Restaurant_Picker.Services
         public ServiceResponse<Restaurant> GetRestaurantByDate()
         {
             ServiceResponse<Restaurant> serviceResponse = new ServiceResponse<Restaurant>();
-            Restaurant restaurant = _restaurants.Find<Restaurant>(r => r.VisitedOn.AddHours(23).AddMinutes(59).AddSeconds(59) >= DateTime.Now).FirstOrDefault();
+            Restaurant restaurant = _restaurants.Find<Restaurant>(r => r.VisitedOn >= DateTime.Now).FirstOrDefault();
             serviceResponse.Data = restaurant;
             return serviceResponse;
         }

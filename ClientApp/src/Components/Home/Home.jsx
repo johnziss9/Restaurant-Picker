@@ -62,6 +62,8 @@ import { UncontrolledAlert } from 'reactstrap';
             else
                 this.props.history.push('/Menu');
         })
+
+        this.setState({ loginFail: false });
     }
 
      render() {
