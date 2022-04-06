@@ -37,6 +37,18 @@
     border-top: 4px solid #e64d00;
 }
 
+/* Restaurant Exists Alert Link */
+
+.view-restaurants-alert-link {
+    color: #000;
+    text-decoration: underline;
+    margin: -0.5em 0 0 -1rem;
+}
+
+.view-restaurants-alert-link:hover {
+    color: #000;
+}
+
 /* Form */
 
 .add-restaurant-form {

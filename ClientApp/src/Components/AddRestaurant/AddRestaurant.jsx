@@ -16,13 +16,17 @@ class AddRestaurant extends React.Component {
             cuisine: '',
             addedBy: null,
             showThankYouAlert: false,
-            showRestaurantExistsAlert: false
+            showRestaurantExistsAlert: false,
+            showNoNameAlert: false,
+            showNoLocationAlert: false,
+            showNoCuisineAlert: false
        }
 
         this.handleName = this.handleName.bind(this);
         this.handleLocation = this.handleLocation.bind(this);
         this.handleCuisine = this.handleCuisine.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onDismiss = this.onDismiss.bind(this);
    }
 
    componentDidMount() {
@@ -54,37 +58,46 @@ class AddRestaurant extends React.Component {
         this.setState({ cuisine: event.target.value })
     }
 
+    onDismiss() {
+        this.setState({
+            showThankYouAlert: false,
+            showRestaurantExistsAlert: false,
+            showNoNameAlert: false,
+            showNoLocationAlert: false,
+            showNoCuisineAlert: false
+        });
+    }
+
     handleSubmit() {
         if (this.state.name == '')
-            alert('Enter restaurant name.');
+            this.setState({ showNoNameAlert: true });
         else if (this.state.location == '')
-            alert('Enter restaurant location.');
+            this.setState({ showNoLocationAlert: true });
         else if (this.state.cuisine == 'Select Cuisine' || this.state.cuisine == '')
-            alert('Select cuisine. If not sure, select \"Other\" option.');
-
-        fetch('https://restaurant-picker5.herokuapp.com/restaurant', {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
-            },
-            body: JSON.stringify({
-                name: this.state.name,
-                location: this.state.location,
-                cuisine: this.state.cuisine
+            this.setState({ showNoCuisineAlert: true });
+        else {
+            fetch('https://restaurant-picker5.herokuapp.com/restaurant', {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                },
+                body: JSON.stringify({
+                    name: this.state.name,
+                    location: this.state.location,
+                    cuisine: this.state.cuisine
+                })
             })
-        })
-        .then (response => response.json())
-        .then (data => {
-            if (data.success) {
-                this.setState({
-                    showThankYouAlert: true
-                });
-            }
-        });
-
-        this.setState({ showThankYouAlert: false });
+            .then (response => response.json())
+            .then (data => {
+                if (data.success) {
+                    this.setState({
+                        showThankYouAlert: true
+                    });
+                }
+            });
+        }
     }
 
     render() {
@@ -102,20 +115,41 @@ class AddRestaurant extends React.Component {
                 <div className='add-restaurant-bottom'>
                     <div className='container add-restaurant-form'>
                         {this.state.showThankYouAlert ?
-                            <UncontrolledAlert color="success">
+                            <UncontrolledAlert color="success" toggle={this.onDismiss}>
                                 <h4>Thank you!</h4>
                                 <hr />
                                 <p>The restaurant has been added and will be included in the next random selection.</p>
                             </UncontrolledAlert> 
                             : null}
                         {/* {this.state.showRestaurantExistsAlert ?
-                            <UncontrolledAlert color="danger">
+                            <UncontrolledAlert color="danger" toggle={this.onDismiss}>
                                 <h4>Uh-oh!</h4>
                                 <hr />
                                 <p>It looks like the restaurant you are trying to add already exists. Check the View Restaurants page to confirm.</p>
                                 <NavLink tag={Link} className="view-restaurants-alert-link" to="/ViewRestaurants">View Restaurants</NavLink>
                             </UncontrolledAlert> 
                             : null} */}
+                        {this.state.showNoNameAlert 
+                            ? <UncontrolledAlert color="danger" toggle={this.onDismiss}>
+                                <h4>Uh-oh!</h4>
+                                <hr />
+                                <p>Make sure the name field is completed.</p>
+                            </UncontrolledAlert>
+                            : null }
+                        {this.state.showNoLocationAlert 
+                            ? <UncontrolledAlert color="danger" toggle={this.onDismiss}>
+                                <h4>Uh-oh!</h4>
+                                <hr />
+                                <p>Make sure the location field is completed.</p>
+                            </UncontrolledAlert>
+                            : null }
+                        {this.state.showNoCuisineAlert 
+                            ? <UncontrolledAlert color="danger" toggle={this.onDismiss}>
+                                <h4>Uh-oh!</h4>
+                                <hr />
+                                <p>Make sure the cuisine field is selected.</p>
+                            </UncontrolledAlert>
+                            : null }
                         <form>
                             <div className="form-group">
                                 <label htmlFor="restaurant-name">Restaurant Name:</label>

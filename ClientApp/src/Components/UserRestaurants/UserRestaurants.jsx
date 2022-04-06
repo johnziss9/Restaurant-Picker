@@ -73,44 +73,52 @@ class UserRestaurants extends React.Component {
                 </div>
                 <div className='user-restaurants-bottom'>
                     <div className='container user-restaurants-container'>
-                        <div className="form-group user-restaurants-search-container">
-                            <span className="fa fa-search"></span>
-                            <input type="text" className="form-control user-restaurants-search" placeholder="Search name..." onChange={event => this.setState({ input: event.target.value})} />
-                        </div>
-                        <div className='user-restaurants-key'>
-                            <div className='user-restaurants-visited'>
-                                <div className='user-restaurants-visited-key'></div>
-                                <div>Visited</div>
-                            </div>
-                            <div className='user-restaurants-not-visited'>
-                                <div className='user-restaurants-not-visited-key'></div>
-                                <div>Not Visited</div>
-                            </div>
-                        </div>
-                        <div className='user-restaurants-card-container'>
-                            {Array.isArray(this.state.restaurants.data) && 
-                                _.orderBy(this.state.restaurants.data, ['name'], ['asc'])
-                                .filter((el) => { 
-                                    if (this.state.input === '') {
-                                        return el;
-                                    }
-                                    else {
-                                        return el.name.toLowerCase().includes(this.state.input.toLowerCase())
-                                    }
-                                })
-                                .map( res => (
-                                <RestaurantCard 
-                                    key={res.id}
-                                    name={res.name}
-                                    location={res.location}
-                                    cuisine={res.cuisine}
-                                    visited={res.visited}
-                                    addedBy={res.addedBy.username}
-                                    addedOn={res.addedOn}
-                                    visitedOn={res.visited == true ? res.visitedOn : 'N/A'}
-                                />
-                            ))}
-                        </div>
+                        {this.state.restaurants.data.length == 0 ?
+                            <>
+                                <div className='user-restaurants-none'>No restaurants found. <br /> Click the link below to add some.</div>
+                                <NavLink tag={Link} className="user-restaurants-none-link" to="/AddRestaurant">Add Restaurants</NavLink>
+                            </> :
+                            <>
+                                <div className="form-group user-restaurants-search-container">
+                                    <span className="fa fa-search"></span>
+                                    <input type="text" className="form-control user-restaurants-search" placeholder="Search name..." onChange={event => this.setState({ input: event.target.value})} />
+                                </div>
+                                <div className='user-restaurants-key'>
+                                    <div className='user-restaurants-visited'>
+                                        <div className='user-restaurants-visited-key'></div>
+                                        <div>Visited</div>
+                                    </div>
+                                    <div className='user-restaurants-not-visited'>
+                                        <div className='user-restaurants-not-visited-key'></div>
+                                        <div>Not Visited</div>
+                                    </div>
+                                </div>
+                                <div className='user-restaurants-card-container'>
+                                    {Array.isArray(this.state.restaurants.data) && 
+                                        _.orderBy(this.state.restaurants.data, ['name'], ['asc'])
+                                        .filter((el) => { 
+                                            if (this.state.input === '') {
+                                                return el;
+                                            }
+                                            else {
+                                                return el.name.toLowerCase().includes(this.state.input.toLowerCase())
+                                            }
+                                        })
+                                        .map( res => (
+                                        <RestaurantCard 
+                                            key={res.id}
+                                            name={res.name}
+                                            location={res.location}
+                                            cuisine={res.cuisine}
+                                            visited={res.visited}
+                                            addedBy={res.addedBy.username}
+                                            addedOn={res.addedOn}
+                                            visitedOn={res.visited == true ? res.visitedOn : 'N/A'}
+                                        />
+                                    ))}
+                                </div>
+                            </>
+                        }
                     </div>
                 </div>
             </div>

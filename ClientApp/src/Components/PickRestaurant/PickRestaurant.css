@@ -33,6 +33,12 @@
     margin-top: 30px;
 }
 
+/* Alerts */
+
+.pick-restaurant-alert {
+    font-weight: bold;
+}
+
 /* No More Restaurant Alert Link */
 
 .add-restaurant-alert-link {
@@ -45,21 +51,12 @@
     color: #000;
 }
 
-/* Chosen Restaurant */
+/* Chosen Restaurant Title */
 
 .chosen-restaurant-title {
     text-align: center;
     font-weight: 600;
     margin-top: 30px;
-}
-
-.chosen-restaurant-container {
-    width: 600px;
-    border: 5px solid #e64d00;
-    margin-top: 30px;
-    color: #fff;
-    background-color: #000;
-    text-align: center;
 }
 
 /* Form */

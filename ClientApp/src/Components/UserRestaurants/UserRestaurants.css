@@ -53,6 +53,28 @@
     flex-direction: column;
 }
 
+/* No Restaurants */
+
+.user-restaurants-none {
+    margin: 20px 0;
+    font-size: 30px;
+    color: #000;
+    text-align: center;
+}
+
+.user-restaurants-none-link {
+    font-size: 23px;
+    color: #e64d00;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.user-restaurants-none-link:hover {
+    font-size: 23px;
+    color: #000;
+    text-align: center;
+}
+
 /* Search Bar */
 
 .user-restaurants-search-container {

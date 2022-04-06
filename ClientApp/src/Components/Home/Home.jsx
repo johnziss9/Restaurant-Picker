@@ -16,6 +16,7 @@ import { UncontrolledAlert } from 'reactstrap';
         this.handleUsername = this.handleUsername.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
+        this.onDismiss = this.onDismiss.bind(this);
     }
 
     handleShow = () => {
@@ -62,8 +63,12 @@ import { UncontrolledAlert } from 'reactstrap';
             else
                 this.props.history.push('/Menu');
         })
+    }
 
-        this.setState({ loginFail: false });
+    onDismiss() {
+        this.setState({
+            loginFail: false
+        });
     }
 
      render() {
@@ -71,7 +76,7 @@ import { UncontrolledAlert } from 'reactstrap';
             <div className='home-wrapper'>
                 <div className='container home-wrapper-container'>
                     {this.state.loginFail ?
-                        <UncontrolledAlert color="danger">
+                        <UncontrolledAlert color="danger" toggle={this.onDismiss}>
                             <h4>Uh-oh!</h4>
                             <hr />
                             <p>It looks like the username or password you entered is incorrect. Please try again.</p>

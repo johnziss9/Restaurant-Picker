@@ -4,7 +4,7 @@
     width: 500px;
     height: 300px;
     border-radius: 3%;
-    margin-top: 20px;
+    margin: 20px 0;
     font-weight: 600;
     color: #fff;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
@@ -21,14 +21,6 @@
     text-align: center;
 }
 
-.chosen-restaurant-card-title {
-    width: 100%;
-}
-
-.chosen-restaurant-card-date {
-    width: 100%;
-}
-
 .chosen-restaurant-card-triangle {
     width: 0; 
     height: 0; 
@@ -43,4 +35,21 @@
     color: #000;
     font-weight: 400;
     font-size: 25px;
+}
+
+@media (max-width: 600px) {
+    .chosen-restaurant-card-wrapper {
+        width: 350px;
+        height: 220px;
+    }
+
+    .chosen-restaurant-card-title-container {
+        height: 100px;
+        font-size: 28px;
+    }
+
+    .chosen-restaurant-card-details {
+        margin: 10px 15px;
+        font-size: 19px;
+    }
 }

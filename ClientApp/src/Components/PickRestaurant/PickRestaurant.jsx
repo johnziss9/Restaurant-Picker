@@ -22,6 +22,7 @@ class PickRestaurant extends React.Component {
 
         this.handleRandom = this.handleRandom.bind(this);
         this.handleDate = this.handleDate.bind(this);
+        this.onDismiss = this.onDismiss.bind(this);
     }
 
     componentDidMount() {
@@ -64,6 +65,8 @@ class PickRestaurant extends React.Component {
     handleRandom() {
         const today = new Date();
         const selectedDate = new Date(this.state.visitationDate);
+
+        console.log(today);
 
         if (this.state.restaurants.data.length <= 0) {
             this.handleErrorAlert();
@@ -113,6 +116,13 @@ class PickRestaurant extends React.Component {
         });
     }
 
+    onDismiss() {
+        this.setState({
+            showErrorAlert: false,
+            showDateAlert: false 
+        });
+    }
+
     render() {
         return (
             <div className='pick-restaurant-wrapper'>
@@ -126,9 +136,9 @@ class PickRestaurant extends React.Component {
                     </h1>
                 </div>
                 <div className='pick-restaurant-bottom'>
-                    <div className="container pick-restaurant-bottom-container" style={{ justifyContent: this.state.visitedRestaurant.data != null || this.state.showChosenRestaurant ? 'center': 'left'}}>
+                    <div className="container pick-restaurant-bottom-container" style={{ alignItems: this.state.visitedRestaurant.data != null || this.state.showChosenRestaurant ? 'center': 'left'}}>
                         {this.state.showErrorAlert 
-                            ? <UncontrolledAlert color="danger">
+                            ? <UncontrolledAlert color="danger" toggle={this.onDismiss} className='pick-restaurant-alert'>
                                 <h4>Uh-oh!</h4>
                                 <hr />
                                 <p>No more restaurants. Please add some restaurants before picking one.</p>
@@ -136,7 +146,7 @@ class PickRestaurant extends React.Component {
                             </UncontrolledAlert>
                             : null }
                         {this.state.showDateAlert 
-                            ? <UncontrolledAlert color="danger">
+                            ? <UncontrolledAlert color="danger" toggle={this.onDismiss} className='pick-restaurant-alert'>
                                 <h4>Uh-oh!</h4>
                                 <hr />
                                 <p>Make sure the selected date is in the future.</p>
