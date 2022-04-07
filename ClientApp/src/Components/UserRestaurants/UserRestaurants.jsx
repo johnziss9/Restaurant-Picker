@@ -33,7 +33,11 @@ class UserRestaurants extends React.Component {
                 isLoaded: true,
                 restaurants: data
             });
-        });
+        })
+    }
+
+    GetVisited(data) {
+        console.log(data);
     }
 
     render() {
@@ -86,11 +90,12 @@ class UserRestaurants extends React.Component {
                                 <div className='user-restaurants-key'>
                                     <div className='user-restaurants-visited'>
                                         <div className='user-restaurants-visited-key'></div>
-                                        <div>Visited</div>
+                                        <div>Visited ({this.state.restaurants.data.filter(res => res.visited).length})
+                                        </div>
                                     </div>
                                     <div className='user-restaurants-not-visited'>
                                         <div className='user-restaurants-not-visited-key'></div>
-                                        <div>Not Visited</div>
+                                        <div>Not Visited ({this.state.restaurants.data.filter(res => !res.visited).length})</div>
                                     </div>
                                 </div>
                                 <div className='user-restaurants-card-container'>

@@ -100,26 +100,28 @@
 }
 
 .user-restaurants-visited {
-    width: 93px;
+    width: 120px;
     height: 25px;
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     font-weight: 600;
     font-size: 17px;
     margin-right: 10px;
+
 }
 
 .user-restaurants-visited-key {
     background-color: gray;
     width: 30px;
     height: 25px;
+    margin-right: 10px;
 }
 
 .user-restaurants-not-visited {
-    width: 120px;
+    width: 160px;
     height: 25px;
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     font-weight: 600;
     font-size: 17px;
     margin-left: 10px;
@@ -129,6 +131,7 @@
     background-color: #e64d00;
     width: 30px;
     height: 25px;
+    margin-right: 10px;
 }
 
 /* Card Container */

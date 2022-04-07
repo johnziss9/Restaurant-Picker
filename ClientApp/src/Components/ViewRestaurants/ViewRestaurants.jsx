@@ -88,11 +88,11 @@ class ViewRestaurants extends React.Component {
                                 <div className='view-restaurants-key'>
                                     <div className='view-restaurants-visited'>
                                         <div className='view-restaurants-visited-key'></div>
-                                        <div>Visited</div>
+                                        <div>Visited ({this.state.restaurants.data.filter(res => res.visited).length})</div>
                                     </div>
                                     <div className='view-restaurants-not-visited'>
                                         <div className='view-restaurants-not-visited-key'></div>
-                                        <div>Not Visited</div>
+                                        <div>Not Visited ({this.state.restaurants.data.filter(res => !res.visited).length})</div>
                                     </div>
                                 </div>
                                 <div className='view-restaurants-card-container'>
