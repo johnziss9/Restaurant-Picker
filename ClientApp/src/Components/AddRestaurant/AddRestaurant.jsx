@@ -95,6 +95,10 @@ class AddRestaurant extends React.Component {
                     this.setState({
                         showThankYouAlert: true
                     });
+                } else {
+                    this.setState({
+                        showRestaurantExistsAlert: true
+                    });
                 }
             });
         }
@@ -121,14 +125,14 @@ class AddRestaurant extends React.Component {
                                 <p>The restaurant has been added and will be included in the next random selection.</p>
                             </UncontrolledAlert> 
                             : null}
-                        {/* {this.state.showRestaurantExistsAlert ?
+                        {this.state.showRestaurantExistsAlert ?
                             <UncontrolledAlert color="danger" toggle={this.onDismiss}>
                                 <h4>Uh-oh!</h4>
                                 <hr />
                                 <p>It looks like the restaurant you are trying to add already exists. Check the View Restaurants page to confirm.</p>
                                 <NavLink tag={Link} className="view-restaurants-alert-link" to="/ViewRestaurants">View Restaurants</NavLink>
                             </UncontrolledAlert> 
-                            : null} */}
+                            : null}
                         {this.state.showNoNameAlert 
                             ? <UncontrolledAlert color="danger" toggle={this.onDismiss}>
                                 <h4>Uh-oh!</h4>

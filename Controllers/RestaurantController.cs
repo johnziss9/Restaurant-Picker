@@ -62,7 +62,8 @@ namespace Restaurant_Picker.Controllers
         {
             var response = _restaurantService.Create(restaurant);
 
-            CreatedAtRoute(new { id = restaurant.Id.ToString() }, response.Data.LastOrDefault());
+            if (response.Data != null)
+                CreatedAtRoute(new { id = restaurant.Id.ToString() }, response.Data.LastOrDefault());
 
             return Ok(response);
         }

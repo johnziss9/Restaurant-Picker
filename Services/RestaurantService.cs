@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -83,13 +84,14 @@ namespace Restaurant_Picker.Services
         {
             ServiceResponse<List<Restaurant>> serviceResponse = new ServiceResponse<List<Restaurant>>();
 
-            //         if (await RestaurantExists(newRestaurant.Name))
-            //         {
-            //             serviceResponse.Success = false;
-            //             serviceResponse.Message = "Restaurant already exists.";
+            if (_restaurants.Find<Restaurant>(r => r.Name.ToLower() == restaurant.Name.ToLower()).FirstOrDefault().Name == restaurant.Name)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Restaurant already exists.";
 
-            //             return serviceResponse;
-            //         }
+                return serviceResponse;
+            }
+            
             restaurant.AddedBy = _users.Find<User>(u => u.Id == GetUserId()).FirstOrDefault();
             _restaurants.InsertOne(restaurant);
             List<Restaurant> restaurants = _restaurants.Find(restaurant => true).ToList();
@@ -143,6 +145,19 @@ namespace Restaurant_Picker.Services
             serviceResponse.Data = (cuisines.Select(c => _mapper.Map<Cuisine>(c))).ToList();
             return serviceResponse;
         }
+
+        // public async Task<bool> RestaurantExists(string restaurant)
+        // {
+        //     // ServiceResponse<Restaurant> serviceResponse = new ServiceResponse<Restaurant>();
+        //     // Restaurant res = _restaurants.Find<Restaurant>(r => r.Name == restaurant).FirstOrDefault();
+        //     // serviceResponse.Data = res;
+        //     // return false;
+
+        //     // if (await _restaurants.Find<Restaurant>(r => r.Name.ToLower() == restaurant.ToLower()).FirstOrDefault().Name)
+        //     //     return true;
+
+        //     // return false;
+        // }
 
         private string GetUserId() => _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
     }
