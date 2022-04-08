@@ -84,7 +84,7 @@ namespace Restaurant_Picker.Services
         {
             ServiceResponse<List<Restaurant>> serviceResponse = new ServiceResponse<List<Restaurant>>();
 
-            if (_restaurants.Find<Restaurant>(r => r.Name.ToLower() == restaurant.Name.ToLower()).FirstOrDefault().Name == restaurant.Name)
+            if (_restaurants.Find<Restaurant>(r => r.Name.ToLower() == restaurant.Name.ToLower()).FirstOrDefault() != null)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = "Restaurant already exists.";
