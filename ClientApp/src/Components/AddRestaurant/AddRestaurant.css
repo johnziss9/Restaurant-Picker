@@ -82,7 +82,7 @@ label {
 
 /* textbox */
 .test-input {
-    border: 1px solid #999;
+    border: 1px solid #ced4da;
     padding: 0.5rem;
     width: 100%;
 }
