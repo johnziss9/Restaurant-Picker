@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import './AddRestaurant.css'
 import { Link } from 'react-router-dom';
 import { NavLink, UncontrolledAlert } from 'reactstrap';
@@ -11,6 +11,7 @@ class AddRestaurant extends React.Component {
        super(props);
        this.state = {
             cuisines: [],
+            restaurants: [],
             name: '',
             location: '',
             cuisine: '',
@@ -19,36 +20,119 @@ class AddRestaurant extends React.Component {
             showRestaurantExistsAlert: false,
             showNoNameAlert: false,
             showNoLocationAlert: false,
-            showNoCuisineAlert: false
+            showNoCuisineAlert: false,
+
+            activeSuggestion: 0,
+            filteredSuggestions: [],
+            showSuggestions: false,
+            userInput: "",
        }
 
-        this.handleName = this.handleName.bind(this);
         this.handleLocation = this.handleLocation.bind(this);
         this.handleCuisine = this.handleCuisine.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onDismiss = this.onDismiss.bind(this);
    }
 
-   componentDidMount() {
-    fetch("https://restaurant-picker5.herokuapp.com/restaurant/GetCuisines", {
-        method: 'get',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + sessionStorage.getItem('token')
-        }
-    })
-    .then(response => response.json())
-    .then (data => {
-        this.setState({ 
-            cuisines: data 
-        });
-    });
-   }
+//    componentDidMount() {
+//     fetch("https://restaurant-picker5.herokuapp.com/restaurant/GetCuisines", {
+//         method: 'get',
+//         headers: {
+//             'Accept': 'application/json',
+//             'Content-Type': 'application/json',
+//             'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+//         }
+//     })
+//     .then(response => response.json())
+//     .then (data => {
+//         this.setState({ 
+//             cuisines: data 
+//         });
+//     });
+//    }
 
-    handleName(event) {
-        this.setState({ name: event.target.value })
+   componentDidMount() {
+        Promise.all([
+            fetch('https://restaurant-picker5.herokuapp.com/restaurant/GetCuisines', {
+                method: 'get',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                }
+            })
+            .then(res => res.json()),
+            fetch('https://restaurant-picker5.herokuapp.com/restaurant/GetAll',  {
+                method: 'get',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                }
+            })
+            .then(res => res.json())
+        ]).then(([cuisineData, restaurantData]) => {
+            this.setState({
+                isLoaded: true,
+                cuisines: cuisineData,
+                restaurants: restaurantData
+            });
+        })
     }
+
+   // Autocomplete functions
+
+   onChange = e => {
+        const suggestions = this.state.restaurants.data.map(res => res.name);
+        const userInput = e.currentTarget.value;
+
+        const filteredSuggestions = suggestions.filter(
+            suggestion =>
+                suggestion.toLowerCase().indexOf(userInput.toLowerCase()) > -1
+        );
+
+        this.setState({
+            activeSuggestion: 0,
+            filteredSuggestions,
+            showSuggestions: true,
+            userInput: e.currentTarget.value,
+            name: e.currentTarget.value
+        });
+    };
+
+    onClick = e => {
+        this.setState({
+        activeSuggestion: 0,
+        filteredSuggestions: [],
+        showSuggestions: false,
+        userInput: e.currentTarget.innerText,
+        name: e.currentTarget.innerText
+        });
+    };
+
+    onKeyDown = e => {
+        const { activeSuggestion, filteredSuggestions } = this.state;
+
+        if (e.keyCode === 13) {
+            this.setState({
+                activeSuggestion: 0,
+                showSuggestions: false,
+                userInput: filteredSuggestions[activeSuggestion],
+            });
+        } else if (e.keyCode === 38) {
+            if (activeSuggestion === 0) {
+                return;
+            }
+            this.setState({ activeSuggestion: activeSuggestion - 1 });
+        }
+        // User pressed the down arrow, increment the index
+        else if (e.keyCode === 40) {
+            if (activeSuggestion - 1 === filteredSuggestions.length) {
+                return;
+        }
+        this.setState({ activeSuggestion: activeSuggestion + 1 });
+        }
+    };
 
     handleLocation(event) {
         this.setState({ location: event.target.value })
@@ -105,6 +189,49 @@ class AddRestaurant extends React.Component {
     }
 
     render() {
+        const {
+            onChange,
+            onClick,
+            onKeyDown,
+            state: {
+                activeSuggestion,
+                filteredSuggestions,
+                showSuggestions,
+                userInput
+            }
+        } = this;
+    
+        let suggestionsListComponent;
+
+        if (showSuggestions && userInput) {
+            if (filteredSuggestions.length) {
+                suggestionsListComponent = (
+                    <ul class="suggestions">
+                        {filteredSuggestions.map((suggestion, index) => {
+                            let className;
+      
+                            // Flag the active suggestion with a class
+                            if (index === activeSuggestion) {
+                                className = "suggestion-active";
+                            }
+                            
+                            return (
+                                <li className={className} key={suggestion} onClick={onClick}>
+                                    {suggestion}
+                                </li>
+                            );
+                        })}
+                    </ul>
+                );
+            } else {
+                suggestionsListComponent = (
+                    <div class="no-suggestions">
+                        <em>No suggestions available.</em>
+                    </div>
+                );
+            }
+        }
+
         return (
             <div className='add-restaurant-wrapper'>
                 <div className='container'>
@@ -157,7 +284,18 @@ class AddRestaurant extends React.Component {
                         <form>
                             <div className="form-group">
                                 <label htmlFor="restaurant-name">Restaurant Name:</label>
-                                <input type="text" id="restaurant-name" className="form-control" placeholder="Enter Restaurant Name" onChange={this.handleName} />
+                                <Fragment>
+                                    <input
+                                        type="text"
+                                        onChange={onChange}
+                                        onKeyDown={onKeyDown}
+                                        value={userInput}
+                                        className="form-control test-input"
+                                        id="restaurant-name" 
+                                        placeholder="Enter Restaurant Name"
+                                    />
+                                    {suggestionsListComponent}
+                                </Fragment>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="restaurant-location">Location:</label>

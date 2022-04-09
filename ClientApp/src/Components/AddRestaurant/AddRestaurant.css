@@ -78,6 +78,48 @@ label {
     width: 350px;
 }
 
+/* Autocomplete */
+
+/* textbox */
+.test-input {
+    border: 1px solid #999;
+    padding: 0.5rem;
+    width: 300px;
+}
+
+/* no suggestions text */
+.no-suggestions {
+    color: #495057;
+    padding: 0.5rem;
+}
+
+/* list of not selected suggestions */
+.suggestions {
+    border: 1px solid #ced4da;
+    border-top-width: 0;
+    list-style: none;
+    margin-top: 0;
+    max-height: auto;
+    overflow-y: auto;
+    padding-left: 0;
+    width: 350px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+/* each suggestion from list */
+.suggestions li {
+    padding: 0.5rem;
+}
+  
+/* selected/hovered suggestion */
+.suggestion-active,
+.suggestions li:hover {
+    background-color: #e64d00;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 700;
+}
+
 @media (max-width: 800px) {
     .add-restaurant-title {
         font-size: 50px;
