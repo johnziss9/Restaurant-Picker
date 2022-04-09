@@ -34,23 +34,6 @@ class AddRestaurant extends React.Component {
         this.onDismiss = this.onDismiss.bind(this);
    }
 
-//    componentDidMount() {
-//     fetch("https://restaurant-picker5.herokuapp.com/restaurant/GetCuisines", {
-//         method: 'get',
-//         headers: {
-//             'Accept': 'application/json',
-//             'Content-Type': 'application/json',
-//             'Authorization': 'Bearer ' + sessionStorage.getItem('token')
-//         }
-//     })
-//     .then(response => response.json())
-//     .then (data => {
-//         this.setState({ 
-//             cuisines: data 
-//         });
-//     });
-//    }
-
    componentDidMount() {
         Promise.all([
             fetch('https://restaurant-picker5.herokuapp.com/restaurant/GetCuisines', {
@@ -125,7 +108,6 @@ class AddRestaurant extends React.Component {
             }
             this.setState({ activeSuggestion: activeSuggestion - 1 });
         }
-        // User pressed the down arrow, increment the index
         else if (e.keyCode === 40) {
             if (activeSuggestion - 1 === filteredSuggestions.length) {
                 return;
@@ -210,7 +192,6 @@ class AddRestaurant extends React.Component {
                         {filteredSuggestions.map((suggestion, index) => {
                             let className;
       
-                            // Flag the active suggestion with a class
                             if (index === activeSuggestion) {
                                 className = "suggestion-active";
                             }
