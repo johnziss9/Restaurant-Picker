@@ -18,5 +18,7 @@ namespace Restaurant_Picker.Models
         public User AddedBy { get; set; }
         public DateTime AddedOn { get; set; } = DateTime.Now;
         public DateTime VisitedOn { get; set; } = DateTime.MinValue;
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }

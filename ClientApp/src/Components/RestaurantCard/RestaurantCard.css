@@ -2,7 +2,7 @@
 
 .restaurant-card-wrapper {
     width: 250px;
-    height: 175px;
+    height: 210px;
     border-radius: 3%;
     margin: 15px;
     font-weight: 600;
@@ -31,4 +31,27 @@
     margin: 10px;
     color: #000;
     font-weight: 400;
+}
+
+/* Icons */
+
+.restaurant-card-icons {
+    display: flex;
+    justify-content: center;
+}
+
+.restaurant-card-map-icon {
+    width: 25px;
+    cursor: pointer;
+}
+
+/* Modal */
+
+.restaurant-card-modal-body {
+    height: 300px;
+}
+
+.restaurant-card-modal-close-button {
+    background-color: #e64d00 !important;
+    border: none !important;
 }

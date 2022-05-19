@@ -16,11 +16,16 @@ class AddRestaurant extends React.Component {
             location: '',
             cuisine: '',
             addedBy: null,
+            address: '',
+            latitude: 0,
+            longitude: 0,
             showThankYouAlert: false,
             showRestaurantExistsAlert: false,
             showNoNameAlert: false,
             showNoLocationAlert: false,
             showNoCuisineAlert: false,
+            showNoAddressAlert: false,
+            showWrongAddressAlert: false,
 
             activeSuggestion: 0,
             filteredSuggestions: [],
@@ -124,13 +129,19 @@ class AddRestaurant extends React.Component {
         this.setState({ cuisine: event.target.value })
     }
 
+    handleCoordinates = (e) => {
+        this.setState({ address: e.target.value })
+    }
+
     onDismiss() {
         this.setState({
             showThankYouAlert: false,
             showRestaurantExistsAlert: false,
             showNoNameAlert: false,
             showNoLocationAlert: false,
-            showNoCuisineAlert: false
+            showNoCuisineAlert: false,
+            showNoAddressAlert: false,
+            showWrongAddressAlert: false
         });
     }
 
@@ -141,29 +152,51 @@ class AddRestaurant extends React.Component {
             this.setState({ showNoLocationAlert: true });
         else if (this.state.cuisine == 'Select Cuisine' || this.state.cuisine == '')
             this.setState({ showNoCuisineAlert: true });
+        else if (this.state.address == '')
+            this.setState({ showNoAddressAlert: true });
         else {
-            fetch('https://restaurant-picker5.herokuapp.com/restaurant', {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token')
-                },
-                body: JSON.stringify({
-                    name: this.state.name,
-                    location: this.state.location,
-                    cuisine: this.state.cuisine
-                })
+            fetch ('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.state.address + process.env.REACT_APP_GOOGLE_API_KEY, {
+                method: 'get',
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
             })
             .then (response => response.json())
-            .then (data => {
-                if (data.success) {
+            .then (gdata => {
+
+                if (gdata.status != "OK")
+                    this.setState({ showWrongAddressAlert: true });
+                else {
                     this.setState({
-                        showThankYouAlert: true
+                        latitude: gdata.results[0].geometry.location.lat,
+                        longitude: gdata.results[0].geometry.location.lng
                     });
-                } else {
-                    this.setState({
-                        showRestaurantExistsAlert: true
+        
+                    return fetch('https://restaurant-picker5.herokuapp.com/restaurant', {
+                        method: 'post',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                        },
+                        body: JSON.stringify({
+                            name: this.state.name,
+                            location: this.state.location,
+                            cuisine: this.state.cuisine,
+                            latitude: this.state.latitude,
+                            longitude: this.state.longitude
+                        })
+                    })
+                    .then (response => response.json())
+                    .then (data => {
+                        if (data.success) {
+                            this.setState({
+                                showThankYouAlert: true
+                            });
+                        } else {
+                            this.setState({
+                                showRestaurantExistsAlert: true
+                            });
+                        }
                     });
                 }
             });
@@ -188,7 +221,7 @@ class AddRestaurant extends React.Component {
         if (showSuggestions && userInput) {
             if (filteredSuggestions.length) {
                 suggestionsListComponent = (
-                    <ul class="suggestions">
+                    <ul className="suggestions">
                         {filteredSuggestions.map((suggestion, index) => {
                             let className;
       
@@ -206,7 +239,7 @@ class AddRestaurant extends React.Component {
                 );
             } else {
                 suggestionsListComponent = (
-                    <div class="no-suggestions">
+                    <div className="no-suggestions">
                         <em>No suggestions available.</em>
                     </div>
                 );
@@ -262,6 +295,20 @@ class AddRestaurant extends React.Component {
                                 <p>Make sure the cuisine field is selected.</p>
                             </UncontrolledAlert>
                             : null }
+                        {this.state.showNoAddressAlert 
+                            ? <UncontrolledAlert color="danger" toggle={this.onDismiss}>
+                                <h4>Uh-oh!</h4>
+                                <hr />
+                                <p>Make sure the address field is completed.</p>
+                            </UncontrolledAlert>
+                            : null }
+                        {this.state.showWrongAddressAlert 
+                            ? <UncontrolledAlert color="danger" toggle={this.onDismiss}>
+                                <h4>Uh-oh!</h4>
+                                <hr />
+                                <p>The address/postcode is wrong or doesn't exist. Please try again.</p>
+                            </UncontrolledAlert>
+                            : null }
                         <form>
                             <div className="form-group">
                                 <label htmlFor="restaurant-name">Restaurant Name:</label>
@@ -290,6 +337,10 @@ class AddRestaurant extends React.Component {
                                         <option key={c}>{c}</option>
                                     ))}
                                 </select>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="restaurant-address">Address:</label>
+                                <input type="text" className="form-control" id="restaurant-address" placeholder="Enter Address" onChange={this.handleCoordinates} />
                             </div>
                             <button type="reset" className="btn btn-success add-restaurant-submit" onClick={this.handleSubmit}>Submit</button>
                         </form>
