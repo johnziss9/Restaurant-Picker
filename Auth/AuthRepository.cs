@@ -19,7 +19,7 @@ namespace Restaurant_Picker.Auth
         {
             _config = config;
 
-            var client = new MongoClient(_config["AppSettings:DatabaseSettings:ConnectionString"]);
+            var client = new MongoClient(Environment.GetEnvironmentVariable("ConnectionString"));
             var database = client.GetDatabase(settings.DatabaseName);
             
             _users = database.GetCollection<User>(settings.UsersCollectionName);
@@ -110,7 +110,7 @@ namespace Restaurant_Picker.Auth
                 new Claim(ClaimTypes.Name, user.Username)
             };
 
-            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["AppSettings:AppSettings:Token"]));
+            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("Token")));
             SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
