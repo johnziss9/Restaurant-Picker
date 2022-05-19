@@ -119,6 +119,8 @@ class UserRestaurants extends React.Component {
                                             addedBy={res.addedBy.username}
                                             addedOn={res.addedOn}
                                             visitedOn={res.visited == true ? res.visitedOn : 'N/A'}
+                                            latitude={res.latitude}
+                                            longitude={res.longitude}
                                         />
                                     ))}
                                 </div>
